@@ -1,0 +1,12 @@
+{
+  "name": "framework",
+  "uuid": "80ddbba9-4649-412b-abda-b416b6bf8fc5",
+  "creator": {
+    "version": "3.7.1"
+  },
+  "description": "",
+  "dependencies": {
+    "long": "^5.2.3",
+    "protobufjs": "^7.2.6"
+  }
+}
