@@ -5,9 +5,9 @@ import { UIRoot } from '../ui/FWUIRoot';
 import { Setting } from '../config/FWSetting';
 import { FWApplication } from '../FWApplication';
 import { func } from '../common/FWFunction';
-import { FWUIDialog } from '../ui/FWUIDialog';
+import { FWUIDialog, IHideData } from '../ui/FWUIDialog';
 import { FWUILoadingManager } from './FWUILoadingManager';
-import { FWUIDialogManager } from './FWUIDialogManager';
+import { FWUIDialogManager, IDialogAssetConfig } from './FWUIDialogManager';
 import { FWUILoading } from '../ui/FWUILoading';
 import { FWManager } from './FWManager';
 const { ccclass, property } = _decorator;
@@ -15,14 +15,8 @@ const { ccclass, property } = _decorator;
 @ccclass('FWUIManager')
 export class FWUIManager extends FWBaseManager {
     uiRoot:UIRoot;
-    private _dialogManager: FWUIDialogManager;
-    private _loadingManager: FWUILoadingManager;
-
-    __preload(): void {
-        this._dialogManager = new FWUIDialogManager();
-        this._loadingManager = new FWUILoadingManager();
-        
-    }
+    private _dialogManager: FWUIDialogManager = new FWUIDialogManager();
+    private _loadingManager: FWUILoadingManager = new FWUILoadingManager();
 
     start() {
         FWApplication.instance.on(Events.MANAGER_INIT_END, this.onMangerInitEnd, this);
@@ -55,12 +49,18 @@ export class FWUIManager extends FWBaseManager {
         return uiRoot;
     }
 
-    showDialog(dialog: FWUIDialog) {
-        this._dialogManager.addDialog(dialog);
+    async showDialog(dialog: FWUIDialog | IDialogAssetConfig,data?:any) {
+        if(dialog instanceof FWUIDialog) {
+            dialog.show(data);
+            return dialog;
+        } else {
+            return await this._dialogManager.showDialog(dialog,data);
+        }
+        // this._dialogManager.addDialog(dialog);
     }
 
-    closeDialog(dialog: FWUIDialog) {
-        dialog.hide();
+    closeDialog(dialog: FWUIDialog,data?:IHideData) {
+        dialog.hide(data);
     }
 
     closeAllDialog() {
@@ -89,7 +89,7 @@ export class FWUIManager extends FWBaseManager {
 }
 
 
-FWManager.register("ui",new FWUIManager())
+FWManager.register("ui",() => new FWUIManager())
 
 declare global {
     namespace globalThis {

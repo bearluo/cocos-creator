@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, sys } from 'cc';
+import { _decorator, Component, native, Node, sys } from 'cc';
 const { ccclass, property } = _decorator;
 
 
@@ -9,7 +9,7 @@ export class PlayerPreferenceKey {
  */
 @ccclass('PlayerPreference')
 export class PlayerPreference {
-    static playerPreferenceKey = '_pp';
+    static playerPreferenceKey = '_pp_';
 
     /**
      * 保存浮点数

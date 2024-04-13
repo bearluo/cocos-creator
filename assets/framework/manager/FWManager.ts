@@ -14,16 +14,18 @@ declare global {
     }
 }
  */
+
+type FWBaseManagerCtor = ()=>FWBaseManager;
 export class FWManager extends EventTarget {
-    private static mapCtor:Map<string,FWBaseManager> = new Map();
-    static register(key:string,ctor:FWBaseManager) {
+    private static mapCtor:Map<string,FWBaseManagerCtor> = new Map();
+    static register(key:string,ctor:FWBaseManagerCtor) {
         assert(!FWManager.mapCtor.has(key),`${key} is already registered`)
         FWManager.mapCtor.set(key,ctor);
     }
 
     initManager() {
         FWManager.mapCtor.forEach((element,key) => {
-            this[key] = element;
+            this[key] = element();
         });
     }
     

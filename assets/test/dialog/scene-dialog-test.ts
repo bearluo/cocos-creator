@@ -1,6 +1,7 @@
 import { _decorator, Component, instantiate, Node, Prefab } from 'cc';
 import { FWUIDialog } from '../../framework/ui/FWUIDialog';
 import { qAsset } from '../../framework/common/FWFunction';
+import { static_dialog } from './dialog';
 const { ccclass, property } = _decorator;
 
 @ccclass('scene_dialog_test')
@@ -15,11 +16,16 @@ export class scene_dialog_test extends Component {
         
     }
 
-    showDialog1(){
-        qAsset.getAsset("test","dialog/Dialog1",Prefab).then((res)=>{
-            let node = instantiate(res);
-            let uiDialog = node.getComponent(FWUIDialog) ?? node.addComponent(FWUIDialog);
-            app.manager.ui.showDialog(uiDialog);
+    async showDialog1(){
+        // qAsset.getAsset("test","dialog/Dialog1",Prefab).then((res)=>{
+        //     let node = instantiate(res);
+        //     let uiDialog = node.getComponent(FWUIDialog) ?? node.addComponent(FWUIDialog);
+        //     static_dialog.uiDialog1 = uiDialog;
+        //     app.manager.ui.showDialog(uiDialog);
+        // })
+        static_dialog.uiDialog1 = await app.manager.ui.showDialog({
+            bundleName:"test",
+            path:"dialog/Dialog1",
         })
     }
 
@@ -27,6 +33,7 @@ export class scene_dialog_test extends Component {
         qAsset.getAsset("test","dialog/Dialog2",Prefab).then((res)=>{
             let node = instantiate(res);
             let uiDialog = node.getComponent(FWUIDialog) ?? node.addComponent(FWUIDialog);
+            static_dialog.uiDialog2 = uiDialog;
             app.manager.ui.showDialog(uiDialog);
         })
     }

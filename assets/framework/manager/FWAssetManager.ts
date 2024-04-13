@@ -35,7 +35,7 @@ export class FWAssetManager extends FWBaseManager {
      */
     loadBundle(data:IBundleData) {
         let {name : bundleName,option,onComplete} = data;
-        func.doPromise<FWBundle>((resolve, reject) => {
+        return func.doPromise<FWBundle>((resolve, reject) => {
             const cacheBundle = this.getBundle(bundleName);
             if (cacheBundle) {
                 resolve(cacheBundle);
@@ -63,9 +63,11 @@ export class FWAssetManager extends FWBaseManager {
         .then((bundle)=>{
             // fw.language.addBundleAutoLanguageConfig(tempName);
             onComplete?.(null,bundle);
+            return Promise.resolve(bundle);
         })
         .catch((err: Error)=>{
             onComplete?.(err,null);
+            return Promise.reject(err);
         });
     }
     /**
@@ -117,20 +119,25 @@ export class FWBundle {
         let {paths,assetType,onProgress,onComplete} = data;
         let __outputAsArray__ = false
         paths = Array.isArray(paths) ? (__outputAsArray__ = true) && paths : [paths];
-        this.bundle.load(paths,assetType,onProgress,(err: Error | null, data: T[]) =>{
-            if (err) {
-                onComplete?.(err,null);
-            } else {
-                for (let index = 0; index < paths.length; index++) {
-                    this._cacheRes<T>(paths[index],assetType,data[index])
-                }
-                if (__outputAsArray__) {
-                    onComplete?.(null,data);
+        return func.doPromise<T | T[]>((resolve,reject)=>{
+            this.bundle.load(paths,assetType,onProgress,(err: Error | null, data: T[]) =>{
+                if (err) {
+                    onComplete?.(err,null);
+                    reject(err);
                 } else {
-                    onComplete?.(null,data[0]);
+                    for (let index = 0; index < paths.length; index++) {
+                        this._cacheRes<T>(paths[index],assetType,data[index])
+                    }
+                    if (__outputAsArray__) {
+                        onComplete?.(null,data);
+                        resolve(data);
+                    } else {
+                        onComplete?.(null,data[0]);
+                        resolve(data[0]);
+                    }
                 }
-            }
-        })
+            })
+        });
     }
 
     get<T extends Asset>(path: string, type?: Constructor<T> | null): T | null {
@@ -149,6 +156,7 @@ export class FWBundle {
             }
         }
     }
+
     /**
      * 这里释放存在问题相同路径可能存在多个资源
      * @param paths 
@@ -231,7 +239,7 @@ export class FWBundle {
     }
 }
 
-FWManager.register("asset",new FWAssetManager())
+FWManager.register("asset",()=>new FWAssetManager())
 
 declare global {
     namespace globalThis {

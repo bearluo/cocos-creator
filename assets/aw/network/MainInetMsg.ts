@@ -1,7 +1,7 @@
 import { Root_cmd } from "../config/NetConfig";
 import { BindInetMsg } from "./BindInetMsg";
 
-export class MainInetMsg extends BindInetMsg {
+export class MainInetMsg<T=any> extends BindInetMsg<T> {
 
     initCmd(nRootID: number, nMainID: number) {
         super.initCmd(nRootID, nMainID);
@@ -20,17 +20,17 @@ export class MainInetMsg extends BindInetMsg {
     }
 }
 
-export class GatewayMainInetMsg extends MainInetMsg {
+export class GatewayMainInetMsg<T=any> extends MainInetMsg<T> {
     initMainID(nMainID: number) {
         this.initCmd(Root_cmd.CMDROOT_GATEWAY_MSG, nMainID);
     }
 }
-export class LoginMainInetMsg extends MainInetMsg {
+export class LoginMainInetMsg<T=any> extends MainInetMsg<T> {
     initMainID(nMainID: number) {
         this.initCmd(Root_cmd.CMDROOT_LOGIN_MSG, nMainID);
     }
 }
-export abstract class PlazeMainInetMsg extends MainInetMsg {
+export abstract class PlazeMainInetMsg<T=any> extends MainInetMsg<T> {
     initMainID(nMainID: number) {
         this.initCmd(Root_cmd.CMDROOT_PLAZA_MSG, nMainID);
     }
@@ -45,12 +45,12 @@ export abstract class PlazeMainInetMsg extends MainInetMsg {
 
     abstract cleanUserData():void;
 }
-export class GameServerMainInetMsg extends MainInetMsg {
+export class GameServerMainInetMsg<T=any> extends MainInetMsg<T> {
     initMainID(nMainID: number) {
         this.initCmd(Root_cmd.CMDROOT_GAMESERVER_MSG, nMainID);
     }
 }
-export class WebMainInetMsg extends MainInetMsg {
+export class WebMainInetMsg<T=any> extends MainInetMsg<T> {
     initMainID(nMainID: number) {
         this.initCmd(Root_cmd.CMDROOT_WEB_MSG, nMainID);
     }

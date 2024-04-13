@@ -185,7 +185,7 @@ export class FWSceneManager extends FWBaseManager {
 }
 
 
-FWManager.register("scene",new FWSceneManager())
+FWManager.register("scene",()=>new FWSceneManager())
 
 
 declare global {

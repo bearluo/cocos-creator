@@ -6,6 +6,7 @@
   },
   "description": "",
   "dependencies": {
+    "crypto-es": "^2.1.0",
     "long": "^5.2.3",
     "protobufjs": "^7.2.6"
   }

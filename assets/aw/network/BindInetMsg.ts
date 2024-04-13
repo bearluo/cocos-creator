@@ -14,7 +14,8 @@ interface StructPB {
     decode(reader: (Reader | Uint8Array), length?: number): any;
 }
 
-export class BindInetMsg extends EventTarget {
+export class BindInetMsg<T=any> extends EventTarget {
+    cmd: T = null;
     /**根命令ID */
     declare nRootID: number
     /**主命令ID */

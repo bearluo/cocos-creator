@@ -1,9 +1,15 @@
-import { _decorator, assert, AudioClip, AudioSource, BlockInputEvents, color, Component, director, EventTouch, log, Node, Pool, RenderRoot2D, Sprite, SpriteFrame, UITransform, Widget } from 'cc';
+import { _decorator, assert, AudioClip, AudioSource, BlockInputEvents, color, Component, director, EventTouch, instantiate, log, Node, Pool, RenderRoot2D, Sprite, SpriteFrame, UITransform, Widget } from 'cc';
 import { FWBaseManager } from './FWBaseManager';
 import { func } from '../common/FWFunction';
 import { FWUIDialog } from '../ui/FWUIDialog';
 import { FWUIMask } from '../ui/FWUIMask';
+import { FWUIDialogLoading } from '../ui/FWUIDialogLoading';
 const { ccclass, property } = _decorator;
+
+export interface IDialogAssetConfig {
+    path: string
+    bundleName: string
+}
 
 export class FWUIDialogManager extends FWBaseManager {
     private _maskName = "_mask";
@@ -12,6 +18,17 @@ export class FWUIDialogManager extends FWBaseManager {
     private _root:Node;
     private _mask:Node;
     private _cur:FWUIDialog;
+    private _loadPool:Pool<FWUIDialogLoading>
+
+    __preload(): void {
+        this._loadPool = new Pool<FWUIDialogLoading>(()=>{
+            let node = new Node();
+            let loading = node.addComponent(FWUIDialogLoading);
+            return loading;
+        },5,(loading)=>{
+            loading.node.destroy();
+        });
+    }
 
     set root(node:Node) {
         this._root = node;
@@ -27,6 +44,37 @@ export class FWUIDialogManager extends FWBaseManager {
         maskNode.parent = this._root;
         maskNode.active = false;
         return maskNode
+    }
+
+    closeDialog() {
+        this.curDialog?.hide()
+    }
+
+    get curDialog() {
+        let length = this._queue.length;
+        if(length==0) {
+            return;
+        }
+        return this._queue[length-1];
+    }
+
+    showDialog(config: IDialogAssetConfig,data?:any) {
+        let loading = this._loadPool.alloc();
+        loading.show(data);
+        return loading.loadPrefab(config).then((prefab)=>{
+            let index = this._queue.indexOf(loading);
+            if(index!=-1) {
+                let node = instantiate(prefab);
+                node.parent = this._root;
+                let newDialog = node.getComponent(FWUIDialog) ?? node.addComponent(FWUIDialog);
+                this._queue.splice(index, 1,newDialog);
+                newDialog.show(loading.showData);
+                loading.node.parent = null;
+                this._loadPool.free(loading)
+                this._queueDirty = true;
+                return Promise.resolve(newDialog);
+            }
+        })
     }
 
     addDialog(dialog: FWUIDialog) {

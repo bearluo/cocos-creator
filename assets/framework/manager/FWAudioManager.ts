@@ -111,11 +111,11 @@ export class FWAudioManager extends FWBaseManager {
 }
 
 
-FWManager.register("audio",new FWAudioManager())
+FWManager.register("audio",()=>new FWAudioManager())
 
 declare global {
     namespace globalThis {
-        interface IManager {
+        interface IFWManager {
             audio : FWAudioManager
         }
     }

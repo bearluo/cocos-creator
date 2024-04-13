@@ -4,17 +4,23 @@ import { FWUIDialog } from '../ui/FWUIDialog';
 import { constant } from './FWConstant';
 import { FWUILoading } from '../ui/FWUILoading';
 
+interface PromiseEx {
+    // 用于中断 promise 的执行
+    shouldContinue:boolean,
+}
+
 export class Function {
     static doPromise<T>(executor: (resolve: (value?: T ) => void, reject: (reason?: Error) => void) => void) {
-        let failed: (reason?: any) => void;
-        // const stack = new Error().stack;
         return <Promise<T>> new Promise<T>((resolveEx, rejectEx) => {
-                failed = rejectEx;
-                executor(resolveEx, (e) => {
-                    rejectEx(e);
-                });
-            }).catch((e) => {
-                failed?.(e);
+                executor(resolveEx, rejectEx);
+            });
+    }
+
+    static doPromiseEx<T>(executor: (resolve: (value?: T ) => void, reject: (reason?: Error) => void) => void, data:PromiseEx) {
+        return <Promise<T>> new Promise<T>((resolveEx, rejectEx) => {
+                if(data.shouldContinue != false) {
+                    executor(resolveEx, rejectEx);
+                }
             });
     }
 
@@ -118,11 +124,11 @@ export const qAsset = quickAsset
 
 
 export class UIFunction {
-    static showDialog(dialog: FWUIDialog) {
-        app.manager.ui.showDialog(dialog)
+    static showDialog(dialog: FWUIDialog,data?:any) {
+        app.manager.ui.showDialog(dialog,data);
     }
     static showLoading(loading:FWUILoading) {
-        app.manager.ui.showLoading(loading)
+        app.manager.ui.showLoading(loading);
     }
 }
 

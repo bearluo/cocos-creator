@@ -48,6 +48,7 @@ export class FWApplication extends EventTarget implements ISchedulable {
     }
 
     dectroy() {
+        FWTimer.unscheduleUpdate(this);
         this.manager.dectroy();
         globalThis.app = null;
         FWApplication._instance = null;
@@ -56,11 +57,20 @@ export class FWApplication extends EventTarget implements ISchedulable {
 
 export type ApplicationType = InstanceType<typeof FWApplication>
 
-director.once(Director.EVENT_BEFORE_SCENE_LAUNCH, () => {
-    if (!EDITOR || PREVIEW || globalThis.isPreviewProcess) {
-        new FWApplication();
+
+
+if (!EDITOR || PREVIEW || globalThis.isPreviewProcess) {
+    if(globalThis.isPreviewProcess) {
+        director.once(Director.EVENT_BEFORE_SCENE_LAUNCH, () => {
+            new FWApplication();
+        })
+    }else {
+        director.once(Director.EVENT_AFTER_SCENE_LAUNCH, () => {
+            new FWApplication();
+        })
     }
-})
+}
+
 
 declare global {
     namespace globalThis {
@@ -68,7 +78,6 @@ declare global {
             manager :IFWManager & FWManager
         }
         interface IFWManager {
-        
         }
         var app:IFWApp & FWApplication;
     }

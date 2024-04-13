@@ -3,7 +3,7 @@ import { func } from '../common/FWFunction';
 import { Events } from '../events/FWEvents';
 const { ccclass, property } = _decorator;
 
-interface IHideData {
+export interface IHideData {
     bClickClose?:boolean;
     bRemove?:boolean;
 }
@@ -11,8 +11,8 @@ interface IHideData {
 @ccclass('FWUIDialog')
 export class FWUIDialog extends Component {
     animation: FWUIDialogAnim;
-    private _showData:any;
-    private _hideData:IHideData;
+    protected _showData:any;
+    protected _hideData:IHideData;
 
 
     protected __preload(): void {
@@ -26,13 +26,17 @@ export class FWUIDialog extends Component {
         
     }
 
+    get showData() {
+        return this._showData;
+    }
+
     /**
      * 显示
      */
     show(data?) {
         this._showData = data;
         app.manager.ui.dialog.addDialog(this);
-        this.playShowAnim()
+        // this.playShowAnim()
         this.node.emit(Events.DIALOG_SHOW, data);
     }
 

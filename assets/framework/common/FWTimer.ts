@@ -10,6 +10,10 @@ export class FWTimer {
     static scheduleUpdate(target: ISchedulable, priority: number, paused: boolean) {
         director.getScheduler().scheduleUpdate(target, priority, paused);
     }
+
+    static unscheduleUpdate(target: ISchedulable) {
+        director.getScheduler().unscheduleUpdate(target);
+    }
 }
 
 export const timer = FWTimer;

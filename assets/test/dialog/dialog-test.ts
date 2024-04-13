@@ -1,5 +1,6 @@
 import { _decorator, assert, Component, Node } from 'cc';
 import { FWUIDialog } from '../../framework/ui/FWUIDialog';
+import { static_dialog } from './dialog';
 const { ccclass, property } = _decorator;
 
 @ccclass('dialog_test')
@@ -16,7 +17,8 @@ export class dialog_test extends Component {
     }
 
     onCloseDialog1() {
-
+        let dialog = static_dialog.uiDialog1;
+        dialog?.isValid && dialog.hide();
     }
 
     update(deltaTime: number) {

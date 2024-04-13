@@ -106,7 +106,7 @@ export class AWSockManager extends FWBaseManager {
     }
 }
 
-FWManager.register("socket",new AWSockManager())
+FWManager.register("socket",() => new AWSockManager())
 
 declare global {
     namespace globalThis {

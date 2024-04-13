@@ -19,6 +19,7 @@ export class constant {
         mask : color(0, 0, 0, 180),
     }
 
-    static default_loadPrefab:Prefab
-    static default_sprite_splash:SpriteFrame
+    static default_loadPrefab:Prefab;
+    static default_sprite_splash:SpriteFrame;
+    static encrypt_key = "b9d27fa6b64db9390678aa4fe42bdf84";
 }
