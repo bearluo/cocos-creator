@@ -1,6 +1,6 @@
 import { _decorator, assert, AudioClip, AudioSource, BlockInputEvents, color, Component, director, EventTouch, instantiate, log, Node, Pool, RenderRoot2D, Sprite, SpriteFrame, UITransform, Widget } from 'cc';
 import { FWBaseManager } from './FWBaseManager';
-import { func } from '../common/FWFunction';
+import { func, uiFunc } from '../common/FWFunction';
 import { FWUIDialog } from '../ui/FWUIDialog';
 import { FWUIMask } from '../ui/FWUIMask';
 import { FWUIDialogLoading } from '../ui/FWUIDialogLoading';
@@ -38,7 +38,7 @@ export class FWUIDialogManager extends FWBaseManager {
     private createMask() {
         assert(this._root,"root is null")
         //遮罩节点
-        let maskNode = func.newNodeWidget(this._maskName);
+        let maskNode = uiFunc.newNodeWidget(this._maskName);
         //添加触摸吞噬
         maskNode.addComponent(FWUIMask);
         maskNode.parent = this._root;

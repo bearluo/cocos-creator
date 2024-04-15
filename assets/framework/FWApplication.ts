@@ -2,7 +2,7 @@ import { _decorator, assetManager, Component, EventTarget, director, Node, UITra
 import { FWManager } from './manager/FWManager';
 import { Events } from './events/FWEvents';
 import { FWTimer } from './common/FWTimer';
-import { EDITOR, PREVIEW } from 'cc/env';
+import { BUILD, EDITOR, PREVIEW } from 'cc/env';
 const { ccclass, property } = _decorator;
 
 @ccclass('FWApplication')
@@ -59,7 +59,8 @@ export type ApplicationType = InstanceType<typeof FWApplication>
 
 
 
-if (!EDITOR || PREVIEW || globalThis.isPreviewProcess) {
+// if (!EDITOR || PREVIEW || globalThis.isPreviewProcess) {
+if (!BUILD && !EDITOR) {
     if(globalThis.isPreviewProcess) {
         director.once(Director.EVENT_BEFORE_SCENE_LAUNCH, () => {
             new FWApplication();

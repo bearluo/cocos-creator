@@ -4,7 +4,7 @@ import { Events } from '../events/FWEvents';
 import { UIRoot } from '../ui/FWUIRoot';
 import { Setting } from '../config/FWSetting';
 import { FWApplication } from '../FWApplication';
-import { func } from '../common/FWFunction';
+import { func, uiFunc } from '../common/FWFunction';
 import { FWUIDialog, IHideData } from '../ui/FWUIDialog';
 import { FWUILoadingManager } from './FWUILoadingManager';
 import { FWUIDialogManager, IDialogAssetConfig } from './FWUIDialogManager';
@@ -42,7 +42,7 @@ export class FWUIManager extends FWBaseManager {
     }
 
     private createUIRoot() {
-        let node = func.newNodeWidget("_UIRoot");
+        let node = uiFunc.newNodeWidget("_UIRoot");
         let root2D = node.addComponent(RenderRoot2D);
         let uiRoot = node.addComponent(UIRoot);
         uiRoot.init();

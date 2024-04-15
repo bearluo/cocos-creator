@@ -1,4 +1,5 @@
-import { ByteStream } from "../lib/NetInterface";
+import { log } from "../../framework/common/FWLog";
+import { ByteStream } from "../../framework/network/NetInterface";
 
 // 类型定义, 顺序不可变!!
 enum EInetType {
@@ -356,7 +357,7 @@ export class InetStruct {
     // 注册结构体，带继承
     registerInheritanceStruct(strName, luaTable, strInheritanceStructName: string) {
         if (!this.m_mapStruct.has(strInheritanceStructName)) {
-            fw.printError(`register: error inheritance struct:'${strInheritanceStructName}' didn't find`);
+            log.printError(`register: error inheritance struct:'${strInheritanceStructName}' didn't find`);
             return false;
         }
 
@@ -392,7 +393,7 @@ export class InetStruct {
         this.m_pEntryStruct.mapStructName.set(pMember.strName, strName);
         let ret = this.ReadStructToTable(this.m_pEntryStruct, pMember, pByteStream);
         if (ret == null) {
-            fw.printError(`read: error struct:'${strName}'`);
+            log.printError(`read: error struct:'${strName}'`);
             return null;
         }
         return ret;
@@ -403,14 +404,14 @@ export class InetStruct {
         this.m_pEntryStruct.mapStructName.set(pMember.strName, strName);
         let bSuccess = this.WriteStructToByteStream(this.m_pEntryStruct, pMember, pByteStream, luaTable);
         if (bSuccess == false) {
-            fw.printError(`write: error struct:'${strName}'`);
+            log.printError(`write: error struct:'${strName}'`);
         }
         return bSuccess;
     }
 
     RegisterStructSub(strName, luaTable: Array<any>) {
         if (this.m_mapStruct.has(strName)) {
-            fw.printError(`register: error the type '${strName}' already exit!!!!`);
+            log.printError(`register: error the type '${strName}' already exit!!!!`);
             return false;
         }
         let pStruct = new SStruct();
@@ -431,7 +432,7 @@ export class InetStruct {
                     eInetType = tmp as EInetType;
                     if (eInetType < EInetType.eInetSInt8 || eInetType > EInetType.eInetWString) {
                         bIsError = true;
-                        fw.printError(`register: error struct:'${strName}', member:'${strMemberName}', index:${i}, unknown type!`);
+                        log.printError(`register: error struct:'${strName}', member:'${strMemberName}', index:${i}, unknown type!`);
                     }
                 } else if (typeof tmp === 'string') {
                     eInetType = EInetType.eInetStruct;
@@ -439,11 +440,11 @@ export class InetStruct {
                     pStruct.mapStructName.set(strMemberName, strStructName);
                     if (!this.m_mapStruct.has(strStructName)) {
                         bIsError = true;
-                        fw.printError(`register: error struct:'${strName}', index:${i}, substruct '${strStructName}' didn't exist!`);
+                        log.printError(`register: error struct:'${strName}', index:${i}, substruct '${strStructName}' didn't exist!`);
                     }
                 } else {
                     bIsError = true;
-                    fw.printError(`register: error struct:'${strName}', index:${i}, unknown type!`);
+                    log.printError(`register: error struct:'${strName}', index:${i}, unknown type!`);
                 }
             }
             // 数组
@@ -465,12 +466,12 @@ export class InetStruct {
                         let strDynamicKeyName = tmp;
                         pStruct.mapDynamicKeyName.set(strMemberName, strDynamicKeyName);
                         if (!this.IsValidDynamicArrayKey(pStruct.vecMember, strDynamicKeyName)) {
-                            fw.printError(`register: error struct:'${strName}', member:'${strMemberName}', the key:'${strDynamicKeyName}' didn't find or invalid!`);
+                            log.printError(`register: error struct:'${strName}', member:'${strMemberName}', the key:'${strDynamicKeyName}' didn't find or invalid!`);
                             bIsError = true;
                         }
                     }
                     else {
-                        fw.printError(`register: error struct:'${strName}', member:'${strMemberName}', unknown type index == 3 !`);
+                        log.printError(`register: error struct:'${strName}', member:'${strMemberName}', unknown type index == 3 !`);
                         bIsError = true;
                     }
                 }
@@ -514,21 +515,21 @@ export class InetStruct {
 
             if (mapMemberName[member.strName] > 1)			// 重名
             {
-                fw.printError(`check: error struct:'${pStruct.strName}', member:'${member.strName}', must be unique!`);
+                log.printError(`check: error struct:'${pStruct.strName}', member:'${member.strName}', must be unique!`);
                 return false;
             }
 
             // -1
             if (member.eType >= EInetType.eInetSInt8InfiniteArray && member.eType <= EInetType.eInetStructInfiniteArray) {
                 if (i != pStruct.vecMember.length - 1) {
-                    fw.printError(`check: error struct:'${pStruct.strName}', member:'${member.strName}', the -1 must be in the end of the struct!`);
+                    log.printError(`check: error struct:'${pStruct.strName}', member:'${member.strName}', the -1 must be in the end of the struct!`);
                     return false;
                 }
             }
 
             // string
             if (member.eType == EInetType.eInetString) {
-                fw.printError(`register: error struct:'${pStruct.strName}', member:'${member.strName}', type string must be array!`);
+                log.printError(`register: error struct:'${pStruct.strName}', member:'${member.strName}', type string must be array!`);
                 return false;
             }
         }
@@ -570,18 +571,18 @@ export class InetStruct {
         return pStream.readDouble()
     }
     ReadStringToTable(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream) {
-        fw.printError(`read: error the type:'${pMember.strName}' didn't support string!`);
+        log.printError(`read: error the type:'${pMember.strName}' didn't support string!`);
         return null;
     }
     ReadWStringToTable(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream) {
-        fw.printError(`read: error the type:'${pMember.strName}' didn't support wstring!`);
+        log.printError(`read: error the type:'${pMember.strName}' didn't support wstring!`);
         return null;
     }
 
     ReadStructToTable(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream) {
         let pSubStruct = this.m_mapStruct.get(pStruct.mapStructName.get(pMember.strName));
         if (pSubStruct == null) {
-            fw.printError(`read: error struct:'${pStruct.mapStructName.get(pMember.strName)}' didn't find`);
+            log.printError(`read: error struct:'${pStruct.mapStructName.get(pMember.strName)}' didn't find`);
             return null;
         }
         let tab = {};
@@ -592,7 +593,7 @@ export class InetStruct {
             let val = this.m_handleFunRead[pSubMember.eType](pSubStruct, pSubMember, pStream, tab);
             if (val == null)		// 函数内部 push_value()
             {
-                fw.printError(`read: error member:'${pSubMember.strName}'!`);
+                log.printError(`read: error member:'${pSubMember.strName}'!`);
                 bIsError = true;
             } else {
                 tab[key] = val;
@@ -908,7 +909,7 @@ export class InetStruct {
         return this.ReadWStringArrayToTable(pStruct, pMember, pStream);
     }
     ReadStructInfiniteArrayToTable(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream) {
-        fw.printError(`read: error the type:'${pMember.strName}' didn't support -1!`);
+        log.printError(`read: error the type:'${pMember.strName}' didn't support -1!`);
         return null;
     }
     ReadSInt8DynamicArrayToTable(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
@@ -1021,17 +1022,17 @@ export class InetStruct {
         return pStream.writeDouble(val);
     }
     WriteStringToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, val) {
-        fw.printError(`write: error the type:'${pMember.strName}' didn't support string!`);
+        log.printError(`write: error the type:'${pMember.strName}' didn't support string!`);
         return false;
     }
     WriteWStringToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, val) {
-        fw.printError(`write: error the type:'${pMember.strName}' didn't support wstring!`);
+        log.printError(`write: error the type:'${pMember.strName}' didn't support wstring!`);
         return false;
     }
     WriteStructToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         let pSubStruct = this.m_mapStruct.get(pStruct.mapStructName.get(pMember.strName));
         if (pSubStruct == null) {
-            fw.printError(`write: error struct:'${pStruct.mapStructName.get(pMember.strName)}' didn't find`);
+            log.printError(`write: error struct:'${pStruct.mapStructName.get(pMember.strName)}' didn't find`);
             return false;
         }
         let bIsError = false;
@@ -1040,7 +1041,7 @@ export class InetStruct {
             let strName = pSubMember.strName;
             let val = tab[strName]
             if (val == null) {
-                fw.printError(`write: error memeber:'${pSubMember.strName}' didn't assign!`);
+                log.printError(`write: error memeber:'${pSubMember.strName}' didn't assign!`);
                 bIsError = true;
             }
             else {
@@ -1054,7 +1055,7 @@ export class InetStruct {
 
     WriteSInt8ArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false && tab instanceof Int8Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1071,7 +1072,7 @@ export class InetStruct {
     }
     WriteUInt8ArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false && tab instanceof Uint8Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1088,7 +1089,7 @@ export class InetStruct {
     }
     WriteSInt16ArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1105,7 +1106,7 @@ export class InetStruct {
     }
     WriteUInt16ArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1122,7 +1123,7 @@ export class InetStruct {
     }
     WriteSInt32ArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1139,7 +1140,7 @@ export class InetStruct {
     }
     WriteUInt32ArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1156,7 +1157,7 @@ export class InetStruct {
     }
     WriteSInt64ArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1173,7 +1174,7 @@ export class InetStruct {
     }
     WriteUInt64ArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1190,7 +1191,7 @@ export class InetStruct {
     }
     WriteBoolArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1207,7 +1208,7 @@ export class InetStruct {
     }
     WriteFloatArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1224,7 +1225,7 @@ export class InetStruct {
     }
     WriteDoubleArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1241,7 +1242,7 @@ export class InetStruct {
     }
     WriteStringArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, str) {
         if (typeof str !== 'string') {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1264,7 +1265,7 @@ export class InetStruct {
 
     WriteWStringArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, str) {
         if (typeof str !== 'string') {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
         let nArrayLen = pStruct.mapArrayLen.get(pMember.strName);
@@ -1287,7 +1288,7 @@ export class InetStruct {
     }
     WriteStructArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
         let nArrayLen = pStruct.mapArrayLen.get(pMember.strName);
@@ -1302,7 +1303,7 @@ export class InetStruct {
 
     WriteSInt8InfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false && tab instanceof Int8Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1311,7 +1312,7 @@ export class InetStruct {
     }
     WriteUInt8InfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false && tab instanceof Uint8Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1320,7 +1321,7 @@ export class InetStruct {
     }
     WriteSInt16InfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1329,7 +1330,7 @@ export class InetStruct {
     }
     WriteUInt16InfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1338,7 +1339,7 @@ export class InetStruct {
     }
     WriteSInt32InfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1347,7 +1348,7 @@ export class InetStruct {
     }
     WriteUInt32InfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1356,7 +1357,7 @@ export class InetStruct {
     }
     WriteSInt64InfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1365,7 +1366,7 @@ export class InetStruct {
     }
     WriteUInt64InfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1374,7 +1375,7 @@ export class InetStruct {
     }
     WriteBoolInfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1383,7 +1384,7 @@ export class InetStruct {
     }
     WriteFloatInfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1392,7 +1393,7 @@ export class InetStruct {
     }
     WriteDoubleInfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, tab) {
         if (tab instanceof Array == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1401,7 +1402,7 @@ export class InetStruct {
     }
     WriteStringInfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, str) {
         if (str instanceof String == false) {
-            fw.printError(`write: error member:'${pMember.strName}' isn't a table!`);
+            log.printError(`write: error member:'${pMember.strName}' isn't a table!`);
             return false;
         }
 
@@ -1409,11 +1410,11 @@ export class InetStruct {
         return this.WriteStringArrayToByteStream(pStruct, pMember, pStream, str);
     }
     WriteWStringInfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, str) {
-        fw.printError(`write: error the type:'${pMember.strName}' didn't support -1!`);
+        log.printError(`write: error the type:'${pMember.strName}' didn't support -1!`);
         return false;
     }
     WriteStructInfiniteArrayToByteStream(pStruct: SStruct, pMember: SMember, pStream: SInetByteStream, str) {
-        fw.printError(`write: error the type:'${pMember.strName}' didn't support -1!`);
+        log.printError(`write: error the type:'${pMember.strName}' didn't support -1!`);
         return false;
     }
 

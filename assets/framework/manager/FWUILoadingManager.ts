@@ -3,8 +3,7 @@ import { FWBaseManager } from './FWBaseManager';
 import { Events } from '../events/FWEvents';
 import { UIRoot } from '../ui/FWUIRoot';
 import { Setting } from '../config/FWSetting';
-import { Application } from '../FWApplication';
-import { func } from '../common/FWFunction';
+import { func, uiFunc } from '../common/FWFunction';
 import { FWUILoading } from '../ui/FWUILoading';
 import { FWUIMask } from '../ui/FWUIMask';
 const { ccclass, property } = _decorator;
@@ -25,7 +24,7 @@ export class FWUILoadingManager extends FWBaseManager {
     private createMask() {
         assert(this._root,"dialogRoot is null")
         //遮罩节点
-        let maskNode = func.newNodeWidget(this._maskName);
+        let maskNode = uiFunc.newNodeWidget(this._maskName);
         //添加触摸吞噬
         maskNode.addComponent(FWUIMask);
         maskNode.parent = this._root;

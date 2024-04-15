@@ -1,5 +1,5 @@
 import { _decorator, Component, EventTouch, Node } from 'cc';
-import { func } from '../common/FWFunction';
+import { func, uiFunc } from '../common/FWFunction';
 import { Events } from '../events/FWEvents';
 import { log } from '../common/FWLog';
 const { ccclass, property } = _decorator;
@@ -56,7 +56,7 @@ export class UIStaticNode {
         let nodeName = '__' + name;
         let node = parent.getChildByName(nodeName)
         if(!node) {
-            node = func.newNodeWidget(nodeName);
+            node = uiFunc.newNodeWidget(nodeName);
             node.parent = parent;
             this[name] = node;
             let initFuncName = "_init" + func.toUpperFirst(name);

@@ -22,4 +22,8 @@ export class constant {
     static default_loadPrefab:Prefab;
     static default_sprite_splash:SpriteFrame;
     static encrypt_key = "b9d27fa6b64db9390678aa4fe42bdf84";
+
+    static DEBUG = {
+        bDev : true,
+    }
 }

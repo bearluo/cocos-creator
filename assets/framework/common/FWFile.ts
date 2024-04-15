@@ -17,12 +17,12 @@ export class FWFile {
         return CryptoES.AES.decrypt(string, constant.encrypt_key).toString(CryptoES.enc.Utf8);
     }
 
-    static writeStringToFile(path:string,data: string | ArrayBuffer) {
+    static writeStringToFile(path:string,data: string) {
         return FWFile.writeFile(path,data);
     }
 
-    static getStringToFile(path:string,bByte?:boolean) {
-        return FWFile.readFile(path,bByte);
+    static getStringToFile(path:string) {
+        return FWFile.readFile(path) as string;
     }
 
     private static setItem(key: string, value: string) {
@@ -38,7 +38,7 @@ export class FWFile {
         return filePath.replace(filePath.match(/[^\\/]+\.?[^.\\/]+$/)[0], ``);
     }
 
-    private static writeFile(path: string, data: string | ArrayBuffer) {
+    static writeFile(path: string, data: string | ArrayBuffer) {
         if(sys.isNative) {
             let finalPath = native.fileUtils.getWritablePath() + path;
             let fileDir = FWFile.getFilePathDir(finalPath);
@@ -61,7 +61,7 @@ export class FWFile {
         return true;
     }
 
-    private static readFile(path: string, bByte=false) {
+    static readFile(path: string, bByte=false) {
         if(sys.isNative) {
             if (bByte) {
                 return native.fileUtils.getDataFromFile(path);
