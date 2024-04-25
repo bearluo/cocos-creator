@@ -2,7 +2,6 @@ import { _decorator, assert, AudioClip, AudioSource, BlockInputEvents, color, Co
 import { FWBaseManager } from './FWBaseManager';
 import { Events } from '../events/FWEvents';
 import { UIRoot } from '../ui/FWUIRoot';
-import { Setting } from '../config/FWSetting';
 import { FWApplication } from '../FWApplication';
 import { func, uiFunc } from '../common/FWFunction';
 import { FWUIDialog, IHideData } from '../ui/FWUIDialog';

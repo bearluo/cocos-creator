@@ -14,8 +14,6 @@ export class Events {
      * 设置面板的背景音乐音量变化
      */
     static onBgmVolumeChanged: string = "onBgmVolumeChanged";
-
-    
     /**
      * 子包卸载
      */
@@ -30,8 +28,6 @@ export class Events {
      * manger init 结束
      */
     static MANAGER_INIT_END = "MANAGER_INIT_END";
-
-
     /**
      * 弹窗显示
      */
@@ -48,7 +44,6 @@ export class Events {
      * 弹窗点击关闭
      */
     static DIALOG_CLICK_CLOSE = "DIALOG_CLICK_CLOSE";
-
     /**
      * 场景加载开始
      */
