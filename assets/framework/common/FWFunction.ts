@@ -1,16 +1,17 @@
-import { _decorator, assert, Asset, AudioClip, AudioSource, Component, Constructor, director, log, Node, Pool, RenderRoot2D, UITransform, Widget } from 'cc';
+import { _decorator, assert, Asset, AudioClip, AudioSource, Button, Component, Constructor, director, EventHandler, instantiate, log, Node, Pool, Prefab, RenderRoot2D, UITransform, Widget } from 'cc';
 import { Vec2, v2, Vec3, v3, Vec4, v4 } from 'cc';
 import { FWUIDialog } from '../ui/FWUIDialog';
 import { constant } from './FWConstant';
 import { FWUILoading } from '../ui/FWUILoading';
 import { Log } from './FWLog';
+import { FWTimer } from './FWTimer';
 
 interface PromiseEx {
     // 用于中断 promise 的执行
     shouldContinue:boolean,
 }
 
-export class Function {
+export class Functions {
     static doPromise<T>(executor: (resolve: (value?: T ) => void, reject: (reason?: Error) => void) => void) {
         return <Promise<T>> new Promise<T>((resolveEx, rejectEx) => {
                 executor(resolveEx, rejectEx);
@@ -23,6 +24,28 @@ export class Function {
                     executor(resolveEx, rejectEx);
                 }
             });
+    }
+
+    static doNextTick(func:(dt?:number)=>void) {
+        FWTimer.scheduleOnce(func, app, 0);
+    }
+
+    static dosomething(tasks = [],onProgress?:(finished: number, failCount:number) => void) {
+        let successCount = 0, failCount = 0;
+        return Promise.all(
+            tasks.map(func => {
+                return func()
+                  .then((res) => {
+                      successCount++;
+                      onProgress?.(successCount,failCount);
+                      return Promise.resolve(res);
+                  }).catch((err) => {
+                      failCount++;
+                      onProgress?.(successCount,failCount);
+                      return Promise.reject(err);
+                  })
+            })
+        );
     }
 
     static toUpperFirst(str:string) {
@@ -44,9 +67,25 @@ export class Function {
         // 将脚本添加到页面中
         document.head.appendChild(script);
     }
+    
+    static stringToColor(str) {
+        // 将字符串转换为哈希值
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+            hash = str.charCodeAt(i) + ((hash << 5) - hash);
+        }
+
+        // 生成随机颜色
+        let color = '#';
+        for (let i = 0; i < 3; i++) {
+            let value = (hash >> (i * 8)) & 0xFF;
+            color += ('00' + value.toString(16)).substr(-2);
+        }
+        return color;
+    }
 }
 
-export const func = Function
+export const func = Functions
 
 
 export class quickAsset {
@@ -93,7 +132,7 @@ export class quickAsset {
 export const qAsset = quickAsset
 
 
-export class UIFunction {
+export class UIFunctions {
     static pos(x: number | Vec2 | Vec3 = 0, y: number = 0, z: number = 0) {
         if (typeof (x)!= `number`) {
             x = <Vec3>(x);
@@ -142,9 +181,44 @@ export class UIFunction {
     static showLoading(loading:FWUILoading) {
         app.manager.ui.showLoading(loading);
     }
+
+    static onClick(target:Node|Button,callback:Function) {
+        let node:Node;
+        if(target instanceof Node) {
+            node = target;
+            target = target.getComponent(Button);
+        } else {
+            node = target.node;
+        }
+        node.off(Button.EventType.CLICK)
+        node.on(Button.EventType.CLICK, callback);
+    }
+
+    static onClickSfx(target:Node|Button,callback:Function,clip: AudioClip = constant.button_click_sfx_clip) {
+        let node:Node;
+        if(target instanceof Node) {
+            node = target;
+            target = target.getComponent(Button) ?? target.addComponent(Button);
+        } else {
+            node = target.node;
+        }
+        node.off(Button.EventType.CLICK)
+        node.on(Button.EventType.CLICK, callback);
+        node.on(Button.EventType.CLICK, ()=>{
+            if(clip) {
+                app.manager.audio.playSfx(clip);
+            }
+        });
+    }
+
+    static newButton(name?:string) {
+        let prefab = app.manager.asset.getBundle("framework").get("res/prefab/UIButton",Prefab);
+        let node = instantiate(prefab);
+        return node;
+    }
 }
 
-export const uiFunc = UIFunction
+export const uiFunc = UIFunctions
 
 
 JSON.safeParse = function (text: string, reviver?: (this: any, key: string, value: any) => any) {

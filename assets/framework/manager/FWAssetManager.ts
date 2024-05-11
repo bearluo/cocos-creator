@@ -1,10 +1,11 @@
-import { _decorator, Asset, assetManager, AssetManager, Component, Constructor, Eventify, EventTarget, instantiate, js, Node } from 'cc';
+import { __private, _decorator, Asset, assetManager, AssetManager, Component, Constructor, Eventify, EventTarget, instantiate, js, Node } from 'cc';
 import { FWBaseManager } from './FWBaseManager';
 import { func } from '../common/FWFunction';
-import { NATIVE } from 'cc/env';
+import { EDITOR, NATIVE } from 'cc/env';
 import { log } from '../common/FWLog';
 import { Events } from '../events/FWEvents';
 import { FWManager } from './FWManager';
+import { app_bundle_name } from '../common/FWConstant';
 const { ccclass, property } = _decorator;
 
 /** js 系统 */
@@ -25,10 +26,34 @@ interface IBundleData {
 @ccclass('FWAssetManager')
 export class FWAssetManager extends FWBaseManager {
     /**loadRemote缓存 */
-    public loadRemoteCache: Map<string, Asset> = new Map()
-    public bundleVersion: Map<string, string> = new Map()
+    public loadRemoteCache: Map<string, Asset> = new Map();
+    public bundleVersion: Map<string, string> = new Map();
 
-    public bundles:Map<string,FWBundle> = new Map()
+    public bundles:Map<string,FWBundle> = new Map();
+
+    start() {
+        if (EDITOR) {
+            func.doNextTick(()=>{
+                this.loadBundle({
+                    name: app_bundle_name,
+                    onComplete: (err,bundle) => {
+                        bundle.loadDir({
+                            paths: "res",
+                        })
+                    }
+                })
+            })
+        } else {
+            this.loadBundle({
+                name: app_bundle_name,
+                onComplete: (err,bundle) => {
+                    bundle.loadDir({
+                        paths: "res",
+                    })
+                }
+            })
+        }
+    }
     /**
      * 加载子包
      * @param data 
@@ -99,7 +124,7 @@ export class FWAssetManager extends FWBaseManager {
 interface IAssetData<T extends Asset> {
     paths: string|string[];
     assetType?: Constructor<T>;
-    onProgress?:(finished: number, total: number, item: AssetManager.RequestItem) => void;
+    onProgress?:(finished: number, total: number, item: AssetManager.RequestItem|null) => void;
     onComplete?:(err: Error | null, data: T|T[]) => void;
 }
 
@@ -109,6 +134,35 @@ export class FWBundle {
     bundle:AssetManager.Bundle;
     constructor(bundle:AssetManager.Bundle) {
         this.bundle = bundle;
+    }
+    /**
+     * 动态加载目录
+     * @param data 
+     * @returns 
+     */
+    loadDir<T extends Asset>(data:IAssetData<T>) {
+        let {paths,assetType,onProgress,onComplete} = data;
+        paths = Array.isArray(paths) ? paths : [paths];
+        let info:__private._cocos_asset_asset_manager_config__IAddressableInfo[] = [];
+        paths.forEach(v=>this.bundle.getDirWithPath(v,assetType,info));
+        let total = info.length;
+        return func.dosomething(info.map(v=>{
+            return () => this.load({
+                paths:v.path,
+                assetType:v.ctor,
+            }) as Promise<T>
+        }),(finished: number, failCount: number)=>{
+            onProgress?.(finished+failCount,total,null);
+        }).then((data:T[]|Error[])=>{
+            let ret:T[] = []
+            data.forEach((v:T|Error) => {
+                if( v instanceof Error == false) {
+                    ret.push(v);
+                }
+            })
+            onComplete?.(null,ret);
+            return Promise.resolve(ret)
+        })
     }
 
     /**

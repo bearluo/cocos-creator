@@ -1,4 +1,5 @@
 import { _decorator, Component, native, Node, sys } from 'cc';
+import FileSaver from 'file-saver'
 const { ccclass, property } = _decorator;
 
 import CryptoES from 'crypto-es';
@@ -75,5 +76,26 @@ export class FWFile {
                 return FWFile.getItem(path);
             }
         }
+    }
+    /**
+     * 浏览器存储
+     * @param data 
+     */
+    static save(data:string,fileName?:string) {
+        const blob = new Blob([data], { type: 'text/plain' });
+        FileSaver.saveAs(blob,fileName);
+    }
+
+    static async read() {
+        // @ts-ignore
+        const fileHandle = await window.showOpenFilePicker();
+        const file = await fileHandle[0].getFile() as File;
+        return await new Promise((resolve: (value: string) => void, reject: (reason?: any) => void)=>{
+            const reader = new FileReader();
+            reader.onload = () => {
+                resolve(reader.result.toString());
+            };
+            reader.readAsText(file);
+        })
     }
 }

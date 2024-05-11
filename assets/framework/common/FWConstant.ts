@@ -1,4 +1,4 @@
-import { Vec2, v2, Vec3, v3, Vec4, v4, color, Prefab, SpriteFrame } from 'cc';
+import { Vec2, v2, Vec3, v3, Vec4, v4, color, Prefab, SpriteFrame, AudioClip } from 'cc';
 
 const _v2 = v2()
 const _v3 = v3()
@@ -26,4 +26,8 @@ export class constant {
     static DEBUG = {
         bDev : true,
     }
+    
+    static button_click_sfx_clip:AudioClip;
 }
+
+export const app_bundle_name = "framework"

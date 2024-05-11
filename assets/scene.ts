@@ -1,10 +1,5 @@
 import { _decorator, AssetManager, assetManager, Component, Director, director, Node } from 'cc';
 import { FWApplication } from './framework/FWApplication';
-import { EDITOR, PREVIEW } from 'cc/env';
-import { FWManager } from './framework/manager/FWManager';
-import { FWUIManager } from './framework/manager/FWUIManager';
-import { AWCenterManager } from './aw/manager/AWCenterManager';
-import { AWSockManager } from './aw/manager/AWSockManager';
 const { ccclass, property } = _decorator;
 
 /**
@@ -12,8 +7,11 @@ const { ccclass, property } = _decorator;
  */
 @ccclass('scene')
 export class scene extends Component {
-    start() {
+    protected onLoad(): void {
         this._init();
+    }
+
+    start() {
     }
 
     update(deltaTime: number) {
@@ -22,9 +20,9 @@ export class scene extends Component {
 
     async _init() {
         await this.loadBundle("framework");
-        await this.loadBundle("aw");
-        app || new FWApplication();
-        app.manager.scene.changeScene("test","asset/scene-asset-test")
+        await this.loadBundle("demo");
+        !globalThis.app && new FWApplication();
+        app.manager.scene.changeScene("demo","demo_scene")
     }
 
     loadBundle(bundleName:string) {

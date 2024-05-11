@@ -103,6 +103,7 @@ export class FWAudioManager extends FWBaseManager {
     }
 
     onDestroy(): void {
+        super.onDestroy();
         this._sfx.forEach(as=>{
             as.destroy();
         })

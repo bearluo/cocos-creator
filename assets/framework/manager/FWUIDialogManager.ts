@@ -129,4 +129,9 @@ export class FWUIDialogManager extends FWBaseManager {
         let siblingIndex = this._cur.node.getSiblingIndex()
         this._mask.setSiblingIndex(siblingIndex == 0 ? siblingIndex : siblingIndex - 1)
     }
+    
+    onDestroy(): void {
+        super.onDestroy();
+        this._loadPool?.destroy();
+    }
 }

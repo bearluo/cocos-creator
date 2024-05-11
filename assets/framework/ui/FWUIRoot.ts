@@ -75,22 +75,22 @@ export class UIStaticNode {
     }
 
     private _onTouchStart(event?: EventTouch) {
-        log.printDebug("onTouchStart");
+        // log.printDebug("onTouchStart");
         event.preventSwallow = true;
         app.manager.ui.emit(Events.onGameTouchStart,event);
     }
     private _onTouchMove(event?: EventTouch) {
-        log.printDebug("_onTouchMove");
+        // log.printDebug("_onTouchMove");
         event.preventSwallow = true;
         // app.manager.ui.emit(Events.onGameTouchStart,event);
     }
     private _onTouchEnd(event?: EventTouch) {
-        log.printDebug("_onTouchEnd");
+        // log.printDebug("_onTouchEnd");
         event.preventSwallow = true;
         // app.manager.ui.emit(Events.onGameTouchStart,event);
     }
     private _onToucCancel(event?: EventTouch) {
-        log.printDebug("_onToucCancel");
+        // log.printDebug("_onToucCancel");
         event.preventSwallow = true;
         // app.manager.ui.emit(Events.onGameTouchStart,event);
     }

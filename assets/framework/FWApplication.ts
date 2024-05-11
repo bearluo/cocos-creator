@@ -1,4 +1,4 @@
-import { _decorator, assetManager, Component, EventTarget, director, Node, UITransform, Widget, Prefab, instantiate, AssetManager, RenderRoot2D, System, ISchedulable, Director } from 'cc';
+import { _decorator, assetManager, Component, EventTarget, director, Node, UITransform, Widget, Prefab, instantiate, AssetManager, RenderRoot2D, System, ISchedulable, Director, Scene } from 'cc';
 import { FWManager } from './manager/FWManager';
 import { Events } from './events/FWEvents';
 import { FWTimer } from './common/FWTimer';
@@ -60,12 +60,18 @@ export type ApplicationType = InstanceType<typeof FWApplication>
 
 
 // if (!EDITOR || PREVIEW || globalThis.isPreviewProcess) {
-if (!BUILD && !EDITOR) {
-    if(globalThis.isPreviewProcess) {
-        director.once(Director.EVENT_BEFORE_SCENE_LAUNCH, () => {
-            new FWApplication();
-        })
-    }else {
+if (!BUILD) {
+    if(EDITOR && globalThis.isPreviewProcess) {
+        let callback
+        callback = (scene:Scene) => {
+            if( scene.name != "" ) {
+                new FWApplication();
+            } else {
+                director.once(Director.EVENT_BEFORE_SCENE_LAUNCH, callback)
+            }
+        }
+        director.once(Director.EVENT_BEFORE_SCENE_LAUNCH, callback)
+    }else if(!EDITOR) {
         director.once(Director.EVENT_AFTER_SCENE_LAUNCH, () => {
             new FWApplication();
         })
