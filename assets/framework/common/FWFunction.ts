@@ -112,17 +112,21 @@ export class quickAsset {
             app.manager.asset.loadBundle({
                 name: bundleName,
                 onComplete: (err,bundle) => {
-                    bundle.load({
-                        paths: path,
-                        assetType: type,
-                        onComplete: (err,res:T) => {
-                            if(err) {
-                                reject(err)
-                            } else {
-                                resolve(res)
+                    if(err) {
+                        reject(err)
+                    } else {
+                        bundle.load({
+                            paths: path,
+                            assetType: type,
+                            onComplete: (err,res:T) => {
+                                if(err) {
+                                    reject(err)
+                                } else {
+                                    resolve(res)
+                                }
                             }
-                        }
-                    })
+                        })
+                    }
                 }
             })
         })
@@ -175,8 +179,11 @@ export class UIFunctions {
         return node;
     }
 
-    static showDialog(dialog: FWUIDialog,data?:any) {
-        app.manager.ui.showDialog(dialog,data);
+    static showDialog(config: {
+        path: string
+        bundleName: string
+    },data?:any) {
+        return app.manager.ui.showDialog(config,data);
     }
     static showLoading(loading:FWUILoading) {
         app.manager.ui.showLoading(loading);
@@ -215,6 +222,12 @@ export class UIFunctions {
         let prefab = app.manager.asset.getBundle("framework").get("res/prefab/UIButton",Prefab);
         let node = instantiate(prefab);
         return node;
+    }
+
+    static asyncAssert(obj:Node|Component) {
+        if(!obj.isValid) {
+            throw new Error("obj had been destroy");
+        }
     }
 }
 

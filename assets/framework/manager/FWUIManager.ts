@@ -6,9 +6,10 @@ import { FWApplication } from '../FWApplication';
 import { func, uiFunc } from '../common/FWFunction';
 import { FWUIDialog, IHideData } from '../ui/FWUIDialog';
 import { FWUILoadingManager } from './FWUILoadingManager';
-import { FWUIDialogManager, IDialogAssetConfig } from './FWUIDialogManager';
+import { FWUIDialogManager } from './FWUIDialogManager';
 import { FWUILoading } from '../ui/FWUILoading';
 import { FWManager } from './FWManager';
+import { IAssetConfig } from '../common/FWShare';
 const { ccclass, property } = _decorator;
 
 @ccclass('FWUIManager')
@@ -48,14 +49,8 @@ export class FWUIManager extends FWBaseManager {
         return uiRoot;
     }
 
-    async showDialog(dialog: FWUIDialog | IDialogAssetConfig,data?:any) {
-        if(dialog instanceof FWUIDialog) {
-            dialog.show(data);
-            return dialog;
-        } else {
-            return await this._dialogManager.showDialog(dialog,data);
-        }
-        // this._dialogManager.addDialog(dialog);
+    async showDialog(config: IAssetConfig,data?:any) {
+        return await this._dialogManager.showDialog(config,data);
     }
 
     closeDialog(dialog: FWUIDialog,data?:IHideData) {

@@ -1,0 +1,76 @@
+
+character.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+parts/arm
+  rotate: false
+  xy: 370, 444
+  size: 67, 67
+  orig: 67, 67
+  offset: 0, 0
+  index: -1
+parts/arrow
+  rotate: false
+  xy: 212, 379
+  size: 146, 23
+  orig: 146, 23
+  offset: 0, 0
+  index: -1
+parts/body
+  rotate: false
+  xy: 212, 403
+  size: 157, 108
+  orig: 157, 108
+  offset: 0, 0
+  index: -1
+parts/foot
+  rotate: false
+  xy: 63, 28
+  size: 63, 60
+  orig: 63, 60
+  offset: 0, 0
+  index: -1
+parts/hand
+  rotate: false
+  xy: 1, 1
+  size: 61, 87
+  orig: 61, 87
+  offset: 0, 0
+  index: -1
+parts/head
+  rotate: false
+  xy: 1, 299
+  size: 210, 212
+  orig: 210, 212
+  offset: 0, 0
+  index: -1
+parts/leg
+  rotate: false
+  xy: 212, 316
+  size: 47, 62
+  orig: 47, 62
+  offset: 0, 0
+  index: -1
+parts/shield
+  rotate: false
+  xy: 1, 140
+  size: 158, 158
+  orig: 158, 158
+  offset: 0, 0
+  index: -1
+parts/string
+  rotate: true
+  xy: 160, 197
+  size: 101, 15
+  orig: 101, 15
+  offset: 0, 0
+  index: -1
+parts/weapon
+  rotate: true
+  xy: 1, 89
+  size: 50, 168
+  orig: 50, 168
+  offset: 0, 0
+  index: -1

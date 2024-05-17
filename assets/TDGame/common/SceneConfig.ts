@@ -12,13 +12,34 @@ export interface IWayPathAnchorsJson {
     anchors:number[],
 }
 
+export interface ISpawnerItem {
+    showTime:number,
+    monsterID:number,
+}
+export interface ISpawner {
+    name:string,
+    pathName:string,
+    queue:ISpawnerItem[],
+}
+
+export interface IMonster {
+    mosterID:number;
+    prefabBundelName:string;
+    prefabPath:string;
+    maxCache:number;
+}
+
 export interface ISceneConfig {
     wayPathAnchors: IWayPathAnchors[];
+    spawner:ISpawner[];
+    monster:IMonster[];
 }
 
 
 export interface ISceneConfigJson {
     wayPathAnchors: IWayPathAnchorsJson[];
+    spawner: ISpawner[];
+    monster:IMonster[];
 }
 
 export class WayPathAnchors {

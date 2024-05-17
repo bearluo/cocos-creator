@@ -8,3 +8,8 @@ export interface IFWManagerBase {
 }
     
 export const manager:IFWManagerBase[] = []
+
+export interface IAssetConfig {
+    path: string
+    bundleName: string
+}

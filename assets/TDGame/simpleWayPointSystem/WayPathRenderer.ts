@@ -1,4 +1,4 @@
-import { _decorator, Component, Director, director, Graphics, math, Node, TransformBit, Vec3 } from 'cc';
+import { _decorator, CCBoolean, Component, Director, director, Graphics, math, Node, TransformBit, Vec3 } from 'cc';
 import { WayPath } from './WayPath';
 const { ccclass, property,requireComponent,executeInEditMode,type } = _decorator;
 
@@ -10,6 +10,14 @@ export class WayPathRenderer extends Component {
     public path:WayPath;
     public draw:Graphics;
     public selectIndex:number = -1;
+    @property(CCBoolean)
+    set doDrawPath(a) {
+        this.path.fixedCurve();
+        this.drawPath();
+    }
+    get doDrawPath() {
+        return false;
+    }
 
     protected onLoad(): void {
         this.path = this.node.getComponent(WayPath);

@@ -9,7 +9,10 @@ export class EditMain extends Component {
     protected onLoad(): void {
         uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_load_config"),gameFunc.loadConfig);
         uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_save_config"),gameFunc.saveConfig);
-        uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_waypath_edit"),gameFunc.gotoWayPointEdit);
+        uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_waypath_edit"),gameFunc.showWayPathEdit);
+        uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_monster_edit"),gameFunc.showMonsterEdit);
+        uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_spawner_edit"),gameFunc.showSpawnerEdit);
+        uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_preview"),gameFunc.gotoPreview);
         
         // uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_save"),this.onSaveClick.bind(this));
         // uiFunc.onClickSfx(this.node.getChildByPath("Node_right/Button_info"),this.onInfoClick.bind(this));
@@ -19,7 +22,6 @@ export class EditMain extends Component {
     }
 
     start() {
-
     }
 
     update(deltaTime: number) {

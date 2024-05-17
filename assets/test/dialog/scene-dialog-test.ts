@@ -34,7 +34,8 @@ export class scene_dialog_test extends Component {
             let node = instantiate(res);
             let uiDialog = node.getComponent(FWUIDialog) ?? node.addComponent(FWUIDialog);
             static_dialog.uiDialog2 = uiDialog;
-            app.manager.ui.showDialog(uiDialog);
+            uiDialog.show();
+            // app.manager.ui.showDialog(uiDialog);
         })
     }
 }

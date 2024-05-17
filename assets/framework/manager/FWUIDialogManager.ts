@@ -4,12 +4,8 @@ import { func, uiFunc } from '../common/FWFunction';
 import { FWUIDialog } from '../ui/FWUIDialog';
 import { FWUIMask } from '../ui/FWUIMask';
 import { FWUIDialogLoading } from '../ui/FWUIDialogLoading';
+import { IAssetConfig } from '../common/FWShare';
 const { ccclass, property } = _decorator;
-
-export interface IDialogAssetConfig {
-    path: string
-    bundleName: string
-}
 
 export class FWUIDialogManager extends FWBaseManager {
     private _maskName = "_mask";
@@ -58,7 +54,7 @@ export class FWUIDialogManager extends FWBaseManager {
         return this._queue[length-1];
     }
 
-    showDialog(config: IDialogAssetConfig,data?:any) {
+    showDialog(config: IAssetConfig,data?:any) {
         let loading = this._loadPool.alloc();
         loading.show(data);
         return loading.loadPrefab(config).then((prefab)=>{
@@ -67,12 +63,15 @@ export class FWUIDialogManager extends FWBaseManager {
                 let node = instantiate(prefab);
                 node.parent = this._root;
                 let newDialog = node.getComponent(FWUIDialog) ?? node.addComponent(FWUIDialog);
-                this._queue.splice(index, 1,newDialog);
                 newDialog.show(loading.showData);
+                // 调整顺序
+                this._queue.pop();
+                this._queue.splice(index, 1,newDialog);
                 loading.node.parent = null;
                 this._loadPool.free(loading)
-                this._queueDirty = true;
                 return Promise.resolve(newDialog);
+            } else {
+                return Promise.reject(new Error("dialog is not loading"));
             }
         })
     }

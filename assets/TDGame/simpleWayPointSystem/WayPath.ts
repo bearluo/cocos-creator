@@ -19,6 +19,7 @@ export class WayPath extends Eventify(Component) {
     set printAnchors(a) {
         log.print(JSON.stringify(this.anchorsArray));
     }
+
     get printAnchors() {
         return false;
     }

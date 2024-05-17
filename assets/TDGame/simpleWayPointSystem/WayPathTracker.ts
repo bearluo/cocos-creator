@@ -10,6 +10,8 @@ export class WayPathTracker extends Eventify(Component) {
     speed = 10;
     @property
     isLooping = false;
+    @property
+    isRunning = false;
 
     targetPosition = new Vec3();
     speedVec3 = new Vec3();
@@ -29,9 +31,20 @@ export class WayPathTracker extends Eventify(Component) {
     }
 
     update(deltaTime: number) {
-        this.move(this.speed * deltaTime);
+        if (this.isRunning) this.walk(deltaTime);
     }
 
+    reset(points: Vec3[]) {
+        this.path.reset(points);
+        this._curPathIndex = 0;
+        Vec3.copy(this.targetPosition, this.path.getPoint(this._curPathIndex))
+        return this.targetPosition;
+    }
+    
+    walk(deltaTime: number) {
+        this.move(this.speed * deltaTime);
+    }
+     
     move(moveLen:number) {
         let curPosition = this.node.position;
         let offsetLen = Vec3.distance(curPosition, this.targetPosition);

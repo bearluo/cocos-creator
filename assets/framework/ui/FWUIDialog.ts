@@ -19,7 +19,7 @@ export class FWUIDialog extends Component {
         this.animation = this.node.getComponent(FWUIDialogAnim) ?? this.node.addComponent(FWUIDialogAnim)
     }
 
-    start() {
+    protected start() {
     }
 
     update(deltaTime: number) {

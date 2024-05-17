@@ -67,10 +67,10 @@ if (!BUILD) {
             if( scene.name != "" ) {
                 new FWApplication();
             } else {
-                director.once(Director.EVENT_BEFORE_SCENE_LAUNCH, callback)
+                director.once(Director.EVENT_AFTER_SCENE_LAUNCH, callback)
             }
         }
-        director.once(Director.EVENT_BEFORE_SCENE_LAUNCH, callback)
+        director.once(Director.EVENT_AFTER_SCENE_LAUNCH, callback)
     }else if(!EDITOR) {
         director.once(Director.EVENT_AFTER_SCENE_LAUNCH, () => {
             new FWApplication();
