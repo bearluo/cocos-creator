@@ -1,4 +1,4 @@
-import { _decorator, CCInteger, Component, Node, Vec3 } from 'cc';
+import { _decorator, CCInteger, CCString, Component, deserialize, JsonAsset, Node, Vec3 } from 'cc';
 import { WayPathTracker } from '../simpleWayPointSystem/WayPathTracker';
 const { ccclass, property,type } = _decorator;
 
@@ -9,8 +9,8 @@ export class Monster extends Component {
     wayPathTracker: WayPathTracker;
 
     protected onLoad(): void {
-        this.wayPathTracker = this.node.getComponent(WayPathTracker);
-        this.wayPathTracker.on("WayPathTracker-end",this.onMoveEnd,this)
+        this.wayPathTracker = this.node.getComponent(WayPathTracker) ?? this.node.addComponent(WayPathTracker);
+        this.wayPathTracker.on("WayPathTracker-end",this.onMoveEnd,this);
     }
     
     start() {

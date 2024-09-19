@@ -1,0 +1,84 @@
+[
+    {
+        "__type__": "cc.AnimationClip",
+        "_name": "MagicalFairy",
+        "_objFlags": 0,
+        "__editorExtras__": {
+            "embeddedPlayerGroups": []
+        },
+        "_native": "",
+        "sample": 5,
+        "speed": 1,
+        "wrapMode": 2,
+        "enableTrsBlending": false,
+        "_duration": 0.8,
+        "_hash": 500763545,
+        "_tracks": [
+            {
+                "__id__": 1
+            }
+        ],
+        "_exoticAnimation": null,
+        "_events": [],
+        "_embeddedPlayers": []
+    },
+    {
+        "__type__": "cc.animation.ObjectTrack",
+        "_binding": {
+            "__type__": "cc.animation.TrackBinding",
+            "path": {
+                "__id__": 2
+            },
+            "proxy": null
+        },
+        "_channel": {
+            "__id__": 4
+        }
+    },
+    {
+        "__type__": "cc.animation.TrackPath",
+        "_paths": [
+            {
+                "__id__": 3
+            },
+            "spriteFrame"
+        ]
+    },
+    {
+        "__type__": "cc.animation.ComponentPath",
+        "component": "cc.Sprite"
+    },
+    {
+        "__type__": "cc.animation.Channel",
+        "_curve": {
+            "__id__": 5
+        }
+    },
+    {
+        "__type__": "cc.ObjectCurve",
+        "_times": [
+            0.0,
+            0.2,
+            0.4,
+            0.6
+        ],
+        "_values": [
+            {
+                "__uuid__": "018d74ed-802c-44f8-80a7-1f3433c04970@f9941",
+                "__expectedType__": "cc.SpriteFrame"
+            },
+            {
+                "__uuid__": "efbb792d-45f8-4bda-8fc1-685a3a3b915d@f9941",
+                "__expectedType__": "cc.SpriteFrame"
+            },
+            {
+                "__uuid__": "8bb71776-1515-4860-922b-71a66bce9bd8@f9941",
+                "__expectedType__": "cc.SpriteFrame"
+            },
+            {
+                "__uuid__": "85567727-b74c-4757-b78f-420f4e6f77a7@f9941",
+                "__expectedType__": "cc.SpriteFrame"
+            }
+        ]
+    }
+]

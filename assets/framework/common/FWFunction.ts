@@ -90,21 +90,9 @@ export const func = Functions
 
 export class quickAsset {
     static getAsset<T extends Asset>(bundleName:string,path:string,type?:Constructor<T>) {
-        return func.doPromise<T>((resolve,reject)=>{
-            let bundle = app.manager.asset.getBundle(bundleName);
-            assert(bundle,`bundle ${bundleName} not exist`);
-            bundle.load({
-                paths: path,
-                assetType: type,
-                onComplete: (err,res:T) => {
-                    if(err) {
-                        reject(err)
-                    } else {
-                        resolve(res)
-                    }
-                }
-            })
-        })
+        let bundle = app.manager.asset.getBundle(bundleName);
+        assert(bundle,`bundle ${bundleName} not exist`);
+        return bundle.get(path,type);
     }
 
     static loadAsset<T extends Asset>(bundleName:string,path:string,type?:Constructor<T>) {

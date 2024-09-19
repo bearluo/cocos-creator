@@ -1,0 +1,84 @@
+[
+    {
+        "__type__": "cc.AnimationClip",
+        "_name": "GoblinWolfRider",
+        "_objFlags": 0,
+        "__editorExtras__": {
+            "embeddedPlayerGroups": []
+        },
+        "_native": "",
+        "sample": 5,
+        "speed": 1,
+        "wrapMode": 2,
+        "enableTrsBlending": false,
+        "_duration": 0.8,
+        "_hash": 500763545,
+        "_tracks": [
+            {
+                "__id__": 1
+            }
+        ],
+        "_exoticAnimation": null,
+        "_events": [],
+        "_embeddedPlayers": []
+    },
+    {
+        "__type__": "cc.animation.ObjectTrack",
+        "_binding": {
+            "__type__": "cc.animation.TrackBinding",
+            "path": {
+                "__id__": 2
+            },
+            "proxy": null
+        },
+        "_channel": {
+            "__id__": 4
+        }
+    },
+    {
+        "__type__": "cc.animation.TrackPath",
+        "_paths": [
+            {
+                "__id__": 3
+            },
+            "spriteFrame"
+        ]
+    },
+    {
+        "__type__": "cc.animation.ComponentPath",
+        "component": "cc.Sprite"
+    },
+    {
+        "__type__": "cc.animation.Channel",
+        "_curve": {
+            "__id__": 5
+        }
+    },
+    {
+        "__type__": "cc.ObjectCurve",
+        "_times": [
+            0.0,
+            0.2,
+            0.4,
+            0.6
+        ],
+        "_values": [
+            {
+                "__uuid__": "cf617eb4-a6a8-40e8-8e6e-de340729ee8b@f9941",
+                "__expectedType__": "cc.SpriteFrame"
+            },
+            {
+                "__uuid__": "e40c350c-9a14-47d8-9026-21a862a80ea5@f9941",
+                "__expectedType__": "cc.SpriteFrame"
+            },
+            {
+                "__uuid__": "ecc01d37-0e2e-489a-9234-c458eed8e697@f9941",
+                "__expectedType__": "cc.SpriteFrame"
+            },
+            {
+                "__uuid__": "660278bc-a730-4180-8b8a-820fee6e3fc4@f9941",
+                "__expectedType__": "cc.SpriteFrame"
+            }
+        ]
+    }
+]

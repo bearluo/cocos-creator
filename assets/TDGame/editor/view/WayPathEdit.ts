@@ -161,7 +161,7 @@ class ScrollViewItem extends Component {
         this.bg.color = Color.GREEN;
     }
 
-    async loadConfig(data:IWayPathAnchors) {
+    loadConfig(data:IWayPathAnchors) {
         let {name} = this.data = data;
         this.itemName.string = name
     }

@@ -29,6 +29,7 @@ interface IEdit {
 
 
     showSpawnerQueueEdit():Promise<FWUIDialog>,
+    showMapEdit():Promise<FWUIDialog>,
 }
 
 interface IGame {
@@ -82,5 +83,9 @@ export class gameFunc {
 
     static showSpawnerQueueEdit() {
         return game.edit.showSpawnerQueueEdit();
+    }
+
+    static showMapEdit() {
+        return game.edit.showMapEdit();
     }
 }

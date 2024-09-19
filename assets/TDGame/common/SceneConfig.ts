@@ -17,22 +17,25 @@ export interface ISpawnerItem {
     monsterID:number,
 }
 export interface ISpawner {
-    name:string,
-    pathName:string,
-    queue:ISpawnerItem[],
+    name:string,// 名称
+    pathName:string,// 路径名称
+    queue:ISpawnerItem[],// 怪物队列
 }
 
 export interface IMonster {
     mosterID:number;
-    prefabBundelName:string;
-    prefabPath:string;
     maxCache:number;
+}
+
+export interface IMap {
+    path?:string;// Prefab地图路径
 }
 
 export interface ISceneConfig {
     wayPathAnchors: IWayPathAnchors[];
     spawner:ISpawner[];
     monster:IMonster[];
+    map:IMap;
 }
 
 
@@ -40,6 +43,7 @@ export interface ISceneConfigJson {
     wayPathAnchors: IWayPathAnchorsJson[];
     spawner: ISpawner[];
     monster:IMonster[];
+    map:IMap;
 }
 
 export class WayPathAnchors {

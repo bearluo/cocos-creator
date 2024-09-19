@@ -1,7 +1,8 @@
-import { _decorator, assert, ccenum, Component, instantiate, Node, Pool, Prefab } from 'cc';
+import { _decorator, assert, ccenum, Component, error, instantiate, Node, Pool, Prefab } from 'cc';
 import { Monster } from './Monster';
-import { ISceneConfig } from '../common/SceneConfig';
+import { IMonster, ISceneConfig } from '../common/SceneConfig';
 import { qAsset, uiFunc } from '../../framework/common/FWFunction';
+import { monster_id, MonsterBundleName, MonsterConfig } from './share';
 const { ccclass, property,type } = _decorator;
 
 @ccclass('MonsterFactory')
@@ -22,20 +23,14 @@ export class MonsterFactory extends Component {
         
     }
 
-    async loadConfig(config:ISceneConfig) {
+    loadConfig(config:ISceneConfig) {
         let {monster} = config;
         this.monsterPool.forEach(v=>v.destroy());
         this.monsterPool.clear();
-        let list:Promise<Prefab>[] = [];
-        for(let i = 0;i<monster.length;i++) {
-            let {prefabPath,prefabBundelName} = monster[i];
-            list.push(qAsset.loadAsset(prefabBundelName,prefabPath, Prefab));
-        }
-        let prefabes = await Promise.all(list);
-        uiFunc.asyncAssert(this);
         for(let i = 0;i<monster.length;i++) {
             let {mosterID,maxCache=5} = monster[i];
-            let prefab = prefabes[i];
+            let prefabPath = MonsterConfig[mosterID]
+            let prefab = qAsset.getAsset(MonsterBundleName,prefabPath, Prefab)
             this.monsterPool.set(mosterID,new Pool(()=>{
                 let node = instantiate(prefab);
                 node.parent = this.node;
@@ -46,12 +41,11 @@ export class MonsterFactory extends Component {
         }
     }
 
-
     allocMonster(monster_id:number) {
         let pool = this.monsterPool.get(monster_id) ?? this.monsterUnknowPool;
         assert(pool,`monster id:${monster_id} is not exist`);
         let node = pool.alloc();
-        let monster = node.getComponent(Monster);
+        let monster = node.getComponent(Monster) ?? node.addComponent(Monster);
         monster.moster_id = monster_id;
         return monster
     }

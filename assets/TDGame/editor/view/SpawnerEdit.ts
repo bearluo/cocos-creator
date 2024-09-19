@@ -184,7 +184,7 @@ class ScrollViewItem extends Component {
         this.bg.color = Color.GREEN;
     }
 
-    async loadConfig(data:ISpawner) {
+    loadConfig(data:ISpawner) {
         let {name,pathName} = this.data = data;
         this.Label_name.string = name;
     }

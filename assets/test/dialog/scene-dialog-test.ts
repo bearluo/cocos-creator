@@ -30,7 +30,7 @@ export class scene_dialog_test extends Component {
     }
 
     showDialog2(){
-        qAsset.getAsset("test","dialog/Dialog2",Prefab).then((res)=>{
+        qAsset.loadAsset("test","dialog/Dialog2",Prefab).then((res)=>{
             let node = instantiate(res);
             let uiDialog = node.getComponent(FWUIDialog) ?? node.addComponent(FWUIDialog);
             static_dialog.uiDialog2 = uiDialog;

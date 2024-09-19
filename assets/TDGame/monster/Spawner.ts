@@ -83,6 +83,10 @@ export class Spawner extends Component {
         this.queue.sort((a,b)=>{
             return a.showTime - b.showTime;
         })
+        this.monsterList.forEach(monster=>{
+            this.spawnerFactory.freeMonster(monster);
+        })
+        this.monsterList.length = 0
     }
 
     onMonsterFree(monster:Monster) {

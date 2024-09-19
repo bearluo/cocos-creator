@@ -1,26 +1,28 @@
-import { _decorator, Color, Component, EditBox, instantiate, Node, Pool, Prefab, ScrollView, Sprite } from 'cc';
+import { _decorator, Color, Component, EditBox, instantiate, Label, Node, Pool, Prefab, ScrollView, Sprite, Vec2, Vec3 } from 'cc';
 import { IMonster, ISceneConfig } from '../../common/SceneConfig';
 import { qAsset, uiFunc } from '../../../framework/common/FWFunction';
 import { FWUIDialog } from '../../../framework/ui/FWUIDialog';
 import { game } from '../../common/constant';
 import { log } from '../../../framework/common/FWLog';
+import { ScrollViewContent } from '../../../framework/components/ScrollViewContent';
+import { monster_id, MonsterBundleName, MonsterConfig } from '../../monster/share';
 const { ccclass, property,type } = _decorator;
-
+const tmp = new Vec2();
 @ccclass('MosterEdit')
 export class MosterEdit extends FWUIDialog {
     scrollView:ScrollView;
     scrollViewItem:Node;
     scrollViewItemPool:Pool<Node>;
 
-    editBox_id:EditBox
     editBox_maxCache:EditBox
-    editBox_prefabBundelName:EditBox
-    editBox_prefabPath:EditBox
+    Label_mosterID_name:Label
 
     selectClickListener:(index:number,data: IMonster)=>void;
 
     private _selectNode:Node;
-    private _maxMonsterID:number;
+
+    scrollView_monster:ScrollView;
+    scrollViewContent_monster:ScrollViewContent;
     
     protected onLoad(): void {
         this.scrollView = this.node.getChildByName("ScrollView").getComponent(ScrollView);
@@ -36,24 +38,24 @@ export class MosterEdit extends FWUIDialog {
             item.destroy();
         });
 
-        uiFunc.onClickSfx(this.node.getChildByName("Button_new"),this.onAddClick.bind(this));
+        this.scrollView_monster = this.node.getChildByName("ScrollView-monster").getComponent(ScrollView);
+        this.scrollViewContent_monster = this.scrollView_monster.content.getComponent(ScrollViewContent);
+        this.scrollViewContent_monster.initListener = this.initMonsterList.bind(this)
+
+        // uiFunc.onClickSfx(this.node.getChildByName("Button_new"),this.onAddClick.bind(this));
         uiFunc.onClickSfx(this.node.getChildByName("Button_close"),this.onClickClose.bind(this));
         uiFunc.onClickSfx(this.node.getChildByName("Button_select"),this.onSelectMonsterClick.bind(this));
         
-        this.editBox_id = this.node.getChildByPath("EditBox_id").getComponent(EditBox);
-        this.editBox_maxCache = this.node.getChildByPath("EditBox_maxCache").getComponent(EditBox);
-        this.editBox_prefabBundelName = this.node.getChildByPath("EditBox_prefabBundelName").getComponent(EditBox);
-        this.editBox_prefabPath = this.node.getChildByPath("EditBox_prefabPath").getComponent(EditBox);
 
         
-        this.editBox_id.node.on(EditBox.EventType.EDITING_DID_ENDED,this.onEditBoxChange,this)
+        this.Label_mosterID_name = this.node.getChildByPath("Label_mosterID_name").getComponent(Label);
+        
+        this.editBox_maxCache = this.node.getChildByPath("EditBox_maxCache").getComponent(EditBox);
         this.editBox_maxCache.node.on(EditBox.EventType.EDITING_DID_ENDED,this.onEditBoxChange,this)
-        this.editBox_prefabBundelName.node.on(EditBox.EventType.EDITING_DID_ENDED,this.onEditBoxChange,this)
-        this.editBox_prefabPath.node.on(EditBox.EventType.EDITING_DID_ENDED,this.onEditBoxChange,this)
     }
 
     start() {
-
+        this.scrollViewContent_monster.updateList(MonsterConfig)
     }
 
     update(deltaTime: number) {
@@ -62,13 +64,6 @@ export class MosterEdit extends FWUIDialog {
 
     loadConfig(config:ISceneConfig) {
         let {monster} = config;
-        this._maxMonsterID = 0;
-        for(let i=0;i<monster.length;i++) {
-            let {mosterID} = monster[i];
-            if(mosterID > this._maxMonsterID) {
-                this._maxMonsterID = mosterID;
-            }
-        }
         this.updateList(monster);
     }
 
@@ -98,20 +93,6 @@ export class MosterEdit extends FWUIDialog {
         game.edit.deleteMonsterConfig(index);
     }
 
-    onAddClick() {
-        let node = this.scrollViewItemPool.alloc();
-        node.parent = this.scrollView.content;
-        this._maxMonsterID++;
-        let config:IMonster = {
-            mosterID:this._maxMonsterID,
-            prefabBundelName:"TDGame",
-            prefabPath:"monster/monster",
-            maxCache:1,
-        }
-        node.getComponent(ScrollViewItem).loadConfig(config);
-        game.edit.addMonsterConfig(config);
-    }
-
     onSelectClick(index:number,monster: IMonster) {
         let oldNode = this._selectNode;
         let newNode = this.scrollView.content.children[index];
@@ -119,21 +100,16 @@ export class MosterEdit extends FWUIDialog {
         oldNode?.getComponent(ScrollViewItem).onUnSelect();
         newNode?.getComponent(ScrollViewItem).onSelect();
 
-        this.editBox_id.string = monster.mosterID.toString();
-        this.editBox_prefabBundelName.string = monster.prefabBundelName.toString();
-        this.editBox_prefabPath.string = monster.prefabPath.toString();
+        this.Label_mosterID_name.string = monster_id[monster.mosterID].toString();
         this.editBox_maxCache.string = monster.maxCache.toString();
     }
 
     onEditBoxChange() {
         if(this._selectNode) {
-            let config:IMonster = {
-                mosterID:parseInt(this.editBox_id.string.trim()),
-                prefabBundelName:this.editBox_prefabBundelName.string.trim(),
-                prefabPath:this.editBox_prefabPath.string.trim(),
-                maxCache:parseInt(this.editBox_maxCache.string.trim()),
-            }
-            this._selectNode.getComponent(ScrollViewItem).loadConfig(config);
+            let item = this._selectNode.getComponent(ScrollViewItem)
+            let config = item.data;
+            config.maxCache = parseInt(this.editBox_maxCache.string.trim()),
+            item.loadConfig(config);
             let index = this.scrollView.content.children.findIndex(v=>v==this._selectNode);
             game.edit.changeMonsterConfig(index,config);
         }
@@ -147,6 +123,39 @@ export class MosterEdit extends FWUIDialog {
             this.selectClickListener?.(index,config);
             this.hide();
         }
+    }
+
+    initMonsterList(index: number, node: Node, data: string) {
+        let Node_prefab = node.getChildByName("Node_prefab");
+        Node_prefab.destroyAllChildren();
+        uiFunc.onClickSfx(node,()=>{
+            {
+                let node = this.scrollView.content.children.find(v=>v.getComponent(ScrollViewItem).data.mosterID == index);
+                if (node) {
+                    node.getComponent(ScrollViewItem).onSelectClick();
+                    let height = node._uiProps.uiTransformComp.height;
+                    let {position} = node;
+                    tmp.x = position.x;
+                    tmp.y = -position.y+height/2;
+                    this.scrollView.scrollToOffset(tmp);
+                    return
+                }
+            }
+            let node = this.scrollViewItemPool.alloc();
+            node.parent = this.scrollView.content;
+            let config:IMonster = {
+                mosterID:index,
+                maxCache:1,
+            }
+            node.getComponent(ScrollViewItem).loadConfig(config);
+            node.getComponent(ScrollViewItem).onSelectClick();
+            this.scrollView.scrollToBottom();
+            game.edit.addMonsterConfig(config);
+        });
+        
+        let monster = game.edit.allocMonster(index);
+        monster.node.parent = Node_prefab;
+        monster.node.position = Vec3.ZERO;
     }
 
     onDestroy(): void {
@@ -187,18 +196,12 @@ class ScrollViewItem extends Component {
         this.bg.color = Color.GREEN;
     }
 
-    async loadConfig(data:IMonster) {
-        let {prefabPath,prefabBundelName} = this.data = data;
+    loadConfig(data:IMonster) {
+        let {mosterID} = this.data = data;
         this.prefabNode.destroyAllChildren();
-        try {
-            let prefab = await qAsset.loadAsset(prefabBundelName,prefabPath, Prefab);
-            uiFunc.asyncAssert(this);
-            //TODO 这里可能会有显示问题 因为是异步的
-            let node = instantiate(prefab);
-            node.parent = this.prefabNode;
-        } catch (error) {
-            log.printError(error?.message)
-        }
+        let monster = game.edit.allocMonster(mosterID)
+        monster.node.position = Vec3.ZERO;
+        monster.node.parent = this.prefabNode;
     }
 }
 

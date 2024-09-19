@@ -13,6 +13,7 @@ export class EditMain extends Component {
         uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_monster_edit"),gameFunc.showMonsterEdit);
         uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_spawner_edit"),gameFunc.showSpawnerEdit);
         uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_preview"),gameFunc.gotoPreview);
+        uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_map_edit"),gameFunc.showMapEdit);
         
         // uiFunc.onClickSfx(this.node.getChildByPath("Node_left/Button_save"),this.onSaveClick.bind(this));
         // uiFunc.onClickSfx(this.node.getChildByPath("Node_right/Button_info"),this.onInfoClick.bind(this));

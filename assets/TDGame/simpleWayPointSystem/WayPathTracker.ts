@@ -22,7 +22,7 @@ export class WayPathTracker extends Eventify(Component) {
     }
 
     protected onLoad(): void {
-        this.path = this.node.getComponent(WayPath);
+        this.path = this.node.getComponent(WayPath) ?? this.node.addComponent(WayPath);
         Vec3.copy(this.targetPosition, this.path.getPoint(this._curPathIndex))
     }
 

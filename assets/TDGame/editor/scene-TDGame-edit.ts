@@ -3,7 +3,7 @@ import { FWFile } from '../../framework/common/FWFile';
 import { WayPath } from '../simpleWayPointSystem/WayPath';
 import { game, gameFunc } from '../common/constant';
 import { WayPointEdit } from './OperatorPanel/WayPointEdit/WayPointEdit';
-import { IMonster, ISceneConfig, ISceneConfigJson, ISpawner, IWayPathAnchors, WayPathAnchors } from '../common/SceneConfig';
+import { IMap, IMonster, ISceneConfig, ISceneConfigJson, ISpawner, IWayPathAnchors, WayPathAnchors } from '../common/SceneConfig';
 import { MonsterFactory } from '../monster/MonsterFactory';
 import { qAsset, uiFunc } from '../../framework/common/FWFunction';
 import { MosterEdit } from './view/MosterEdit';
@@ -13,6 +13,7 @@ import { SpawnerEditOP } from './OperatorPanel/spawnerEdit/SpawnerEditOP';
 import { SpawnerQueueEdit } from './view/SpawnerQueueEdit';
 import { Monster } from '../monster/Monster';
 import { Preview } from './OperatorPanel/preview/Preview';
+import { MapEdit } from './view/MapEdit';
 
 const { ccclass, property,type } = _decorator;
 
@@ -29,12 +30,14 @@ class SceneConfig implements ISceneConfig {
     monster: IMonster[] = [];
     wayPathAnchors: IWayPathAnchors[] = [];
     spawner:ISpawner[] = [];
+    map:IMap = {};
     // 序列化方法：将类实例转换为 JSON 格式的对象
     serialize(): string {
         let jsonObj:ISceneConfigJson = {
             wayPathAnchors: this.wayPathAnchors.map(v=>v.serialize()),
             spawner:this.spawner,
             monster:this.monster,
+            map:this.map
         };
         return JSON.stringify(jsonObj);
     }
@@ -47,6 +50,7 @@ class SceneConfig implements ISceneConfig {
         obj.wayPathAnchors = wayPathAnchors;
         obj.spawner = jsonObj.spawner ?? [];
         obj.monster = jsonObj.monster ?? [];
+        obj.map = jsonObj.map ?? {};
         return obj;
     }
 }
@@ -90,8 +94,7 @@ export class scene_TDGame_edit extends Component {
             .then(async v=>{
                 let config = SceneConfig.deserialize(v);
                 uiFunc.asyncAssert(this);
-                await this.monsterFactory.loadConfig(config);
-                uiFunc.asyncAssert(this);
+                this.monsterFactory.loadConfig(config);
                 this.resetConfig(config)
             })
             .catch((error:Error)=>{
@@ -244,6 +247,19 @@ export class scene_TDGame_edit extends Component {
         uiFunc.asyncAssert(this);
         let view = dialog.node.getComponent(SpawnerQueueEdit);
         view.loadConfig(this.config);
+        return view;
+    }
+
+    
+
+    async showMapEdit() {
+        let dialog = await uiFunc.showDialog({
+            path: "editor/view/MapEdit",
+            bundleName: "TDGame"
+        });
+        uiFunc.asyncAssert(this);
+        let view = dialog.node.getComponent(MapEdit);
+        // view.loadConfig(this.config);
         return view;
     }
 }
