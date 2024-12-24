@@ -53,8 +53,13 @@ export class FWUIDialogManager extends FWBaseManager {
         }
         return this._queue[length-1];
     }
-
-    showDialog(config: IAssetConfig,data?:any) {
+    /**
+     * 加载并显示弹窗
+     * @param config 资源配置 {@link IAssetConfig}
+     * @param data 
+     * @returns 
+     */
+    loadAndShowDialog(config: IAssetConfig,data?:any) {
         let loading = this._loadPool.alloc();
         loading.show(data);
         return loading.loadPrefab(config).then((prefab)=>{
@@ -75,14 +80,20 @@ export class FWUIDialogManager extends FWBaseManager {
             }
         })
     }
-
+    /**
+     * 添加弹窗管理
+     * @param dialog 
+     */
     addDialog(dialog: FWUIDialog) {
         assert(this._root, "root is null");
         dialog.node.parent = this._root;
         this._queue.push(dialog);
         this._queueDirty = true;
     }
-
+    /**
+     * 移除弹窗管理
+     * @param dialog 
+     */
     removeDialog(dialog: FWUIDialog) {
         assert(this._root, "root is null");
         let index = this._queue.indexOf(dialog);
@@ -91,7 +102,9 @@ export class FWUIDialogManager extends FWBaseManager {
             this._queueDirty = true;
         }
     }
-
+    /**
+     * 关闭全部弹窗
+     */
     closeAllDialog() {
         let oldQueue = this._queue;
         this._queue = [];

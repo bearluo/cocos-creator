@@ -6,5 +6,3 @@ export class test_func {
         app.manager.scene.changeScene("test", "scene-test");
     }
 }
-
-

@@ -172,15 +172,15 @@ export class FWBundle {
     load<T extends Asset>(data:IAssetData<T>) {
         let {paths,assetType,onProgress,onComplete} = data;
         let __outputAsArray__ = false
-        paths = Array.isArray(paths) ? (__outputAsArray__ = true) && paths : [paths];
+        let inputPaths = Array.isArray(paths) ? (__outputAsArray__ = true) && paths : [paths];
         return func.doPromise<T | T[]>((resolve,reject)=>{
-            this.bundle.load(paths,assetType,onProgress,(err: Error | null, data: T[]) =>{
+            this.bundle.load(inputPaths,assetType,onProgress,(err: Error | null, data: T[]) =>{
                 if (err) {
                     onComplete?.(err,null);
                     reject(err);
                 } else {
-                    for (let index = 0; index < paths.length; index++) {
-                        this._cacheRes<T>(paths[index],assetType,data[index])
+                    for (let index = 0; index < inputPaths.length; index++) {
+                        this._cacheRes<T>(inputPaths[index],assetType,data[index])
                     }
                     if (__outputAsArray__) {
                         onComplete?.(null,data);

@@ -7,9 +7,7 @@
   "subMetas": {},
   "userData": {
     "compressionType": {},
-    "isRemoteBundle": {
-      "web-desktop": true
-    },
+    "isRemoteBundle": {},
     "isBundle": true
   }
 }

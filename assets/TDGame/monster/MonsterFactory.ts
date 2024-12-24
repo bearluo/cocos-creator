@@ -8,13 +8,6 @@ const { ccclass, property,type } = _decorator;
 @ccclass('MonsterFactory')
 export class MonsterFactory extends Component {
     monsterPool:Map<number,Pool<Node>> = new Map();
-    monsterUnknowPool:Pool<Node> = new Pool(()=>{
-        let node = new Node();
-        node.addComponent(Monster);
-        return node;
-    },5,(node)=>{
-        node.destroy();
-    });
     start() {
 
     }
@@ -41,19 +34,43 @@ export class MonsterFactory extends Component {
         }
     }
 
+    hasMonsterPool(monster_id:number){
+        return this.monsterPool.has(monster_id)
+    }
+
+    newMonsterPool(monster_id:number,maxCache:number) {
+        assert(!this.hasMonsterPool(monster_id),"MonsterPool is exist");
+        let prefabPath = MonsterConfig[monster_id];
+        let prefab = qAsset.getAsset(MonsterBundleName,prefabPath, Prefab);
+        this.monsterPool.set(monster_id,new Pool(()=>{
+            let node = instantiate(prefab);
+            node.parent = this.node;
+            return node;
+        },maxCache,(node)=>{
+            node.destroy();
+        }));
+    }
+
+    changeMonsterPoolMaxCache(monster_id:number,maxCache:number) {
+        assert(this.hasMonsterPool(monster_id),"MonsterPool is not exist");
+        this.monsterPool.get(monster_id)
+    }
+
     allocMonster(monster_id:number) {
-        let pool = this.monsterPool.get(monster_id) ?? this.monsterUnknowPool;
+        assert(this.hasMonsterPool(monster_id),"MonsterPool is not exist");
+        let pool = this.monsterPool.get(monster_id);
         assert(pool,`monster id:${monster_id} is not exist`);
         let node = pool.alloc();
         let monster = node.getComponent(Monster) ?? node.addComponent(Monster);
-        monster.moster_id = monster_id;
+        monster.monster_id = monster_id;
         return monster
     }
 
     freeMonster(monster:Monster) {
         let node = monster.node;
         assert(monster,"monster must be have Monster Component");
-        let pool = this.monsterPool.get(monster.moster_id) ?? this.monsterUnknowPool;
+        assert(this.hasMonsterPool(monster.monster_id),"MonsterPool is not exist");
+        let pool = this.monsterPool.get(monster.monster_id);
         pool.free(node);
         node.parent = null;
     }

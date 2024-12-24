@@ -42,6 +42,7 @@ export class FWUILoading extends Component {
 
     /**
      * 隐藏
+     * @param data {@link IHideData}
      */
     hide(data:IHideData = {}) {
         let {bRemove=true} = data;

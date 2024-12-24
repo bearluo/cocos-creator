@@ -1,6 +1,6 @@
 import { _decorator, Component, EventTouch, Node, tween, Vec3 } from 'cc';
 import { func } from '../common/FWFunction';
-import { Events } from '../events/FWEvents';
+import { Events, FWEvent } from '../events/FWEvents';
 const { ccclass, property } = _decorator;
 
 export interface IHideData {
@@ -14,6 +14,7 @@ export class FWUIDialog extends Component {
     protected _showData:any;
     protected _hideData:IHideData;
 
+    // event:FWEvent<> = new FWEvent();
 
     protected __preload(): void {
         this.animation = this.node.getComponent(FWUIDialogAnim) ?? this.node.addComponent(FWUIDialogAnim)
@@ -37,7 +38,7 @@ export class FWUIDialog extends Component {
         this._showData = data;
         app.manager.ui.dialog.addDialog(this);
         // this.playShowAnim()
-        this.node.emit(Events.DIALOG_SHOW, data);
+        // this.node.emit(Events.DIALOG_SHOW, data);
     }
 
     /**
@@ -48,10 +49,10 @@ export class FWUIDialog extends Component {
         app.manager.ui.dialog.removeDialog(this);
         let {bClickClose=false,bRemove=true} = data;
         this.playHideAnim(bRemove);
-        if (bClickClose) {
-            this.node.emit(Events.DIALOG_CLICK_CLOSE, data);
-        }
-        this.node.emit(Events.DIALOG_HIDE, data);
+        // if (bClickClose) {
+        //     this.node.emit(Events.DIALOG_CLICK_CLOSE, data);
+        // }
+        // this.node.emit(Events.DIALOG_HIDE, data);
     }
 
     playShowAnim() {
@@ -88,7 +89,7 @@ export class FWUIDialog extends Component {
     }
 
     onDestroy() {
-        this.node.emit(Events.DIALOG_DESTROY);
+        // this.node.emit(Events.DIALOG_DESTROY);
         app.manager.ui.dialog.removeDialog(this);
     }
 }

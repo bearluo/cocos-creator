@@ -1,5 +1,4 @@
 import { _decorator, Component, native, Node, sys } from 'cc';
-import FileSaver from 'file-saver'
 const { ccclass, property } = _decorator;
 
 import CryptoES from 'crypto-es';
@@ -81,9 +80,16 @@ export class FWFile {
      * 浏览器存储
      * @param data 
      */
-    static save(data:string,fileName?:string) {
+    static async save(data:string,fileName?:string) {
         const blob = new Blob([data], { type: 'text/plain' });
-        FileSaver.saveAs(blob,fileName);
+        const url = URL.createObjectURL(blob);
+        // Create a download link
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);
     }
 
     static async read() {

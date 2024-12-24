@@ -1,10 +1,9 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator, Component, EventTarget, Node } from 'cc';
 const { ccclass, property } = _decorator;
 
 /**
  * 全局事件定义
  */
-@ccclass('Events')
 export class Events {
     /**
      * uiRoot节点发生变化
@@ -29,22 +28,6 @@ export class Events {
      */
     static MANAGER_INIT_END = "MANAGER_INIT_END";
     /**
-     * 弹窗显示
-     */
-    static DIALOG_SHOW = "DIALOG_SHOW";
-    /**
-     * 弹窗隐藏
-     */
-    static DIALOG_HIDE = "DIALOG_HIDE";
-    /**
-     * 弹窗销毁
-     */
-    static DIALOG_DESTROY = "DIALOG_DESTROY";
-    /**
-     * 弹窗点击关闭
-     */
-    static DIALOG_CLICK_CLOSE = "DIALOG_CLICK_CLOSE";
-    /**
      * 场景加载开始
      */
     static SCENE_LOADING_START = "SCENE_LOADING_START";
@@ -62,3 +45,9 @@ export class Events {
     static SCENE_LOADING_END = "SCENE_LOADING_END";
 }
 
+export class FWEvent<CT> extends EventTarget {
+	/** 事件键 */
+	key: { [k in keyof CT]: k } = new Proxy(Object.create(null), {
+		get: (target, key) => key,
+	});
+}

@@ -2,6 +2,7 @@ import { Node } from "cc"
 import { IMonster, ISpawner, IWayPathAnchors } from "./SceneConfig"
 import { FWUIDialog } from "../../framework/ui/FWUIDialog"
 import { Monster } from "../monster/Monster"
+import { MonsterFactory } from "../monster/MonsterFactory"
 
 interface IEdit {
     showOperatorPanel(name:string,data?:any),
@@ -9,6 +10,7 @@ interface IEdit {
     loadConfig(),
     saveConfig(),
     
+    monsterFactory:MonsterFactory
     allocMonster(monster_id:number):Monster,
     freeMonster(monster:Monster),
 
@@ -35,6 +37,13 @@ interface IEdit {
 interface IGame {
     edit?:IEdit,
 }
+
+export enum PHY_GROUP {
+    DEFAULT = 1 << 0,
+    build = 1 << 1,
+    monster = 1 << 2,
+    bullet = 1 << 3,
+};
 
 export const game:IGame = {}
 

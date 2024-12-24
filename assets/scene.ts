@@ -1,5 +1,5 @@
-import { _decorator, AssetManager, assetManager, Component, Director, director, Node } from 'cc';
-import { FWApplication } from './framework/FWApplication';
+import { _decorator, AssetManager, assetManager, CCString, Component, Director, director, js, Node } from 'cc';
+import { log } from './framework/common/FWLog';
 const { ccclass, property } = _decorator;
 
 /**
@@ -7,6 +7,7 @@ const { ccclass, property } = _decorator;
  */
 @ccclass('scene')
 export class scene extends Component {
+    
     protected onLoad(): void {
         this._init();
     }
@@ -21,7 +22,8 @@ export class scene extends Component {
     async _init() {
         await this.loadBundle("framework");
         await this.loadBundle("demo");
-        !globalThis.app && new FWApplication();
+        let FWApplicationClass = js.getClassByName("FWApplication");
+        !globalThis.app && new FWApplicationClass();
         app.manager.scene.changeScene("demo","demo_scene")
     }
 

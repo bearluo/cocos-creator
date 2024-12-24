@@ -15,7 +15,7 @@ export class MapEdit extends FWUIDialog {
 
     mapNode:Node;
 
-    selectClickListener:(index:number,data:ScrollViewItemData)=>void;
+    selectClickListener:(data:ScrollViewItemData)=>void;
     
     private _selectNode:Node;
 
@@ -26,7 +26,7 @@ export class MapEdit extends FWUIDialog {
         this.scrollViewContent.initListener = this.initMapList.bind(this)
 
         // uiFunc.onClickSfx(this.node.getChildByName("Button_edit"),this.onEditClick.bind(this));
-        uiFunc.onClickSfx(this.node.getChildByName("Button_select"),this.onSelectWayPathClick.bind(this));
+        uiFunc.onClickSfx(this.node.getChildByName("Button_select"),this.onSelectMapClick.bind(this));
         uiFunc.onClickSfx(this.node.getChildByName("Button_close"),this.onClickClose.bind(this));
 
     }
@@ -52,8 +52,7 @@ export class MapEdit extends FWUIDialog {
         this._selectNode = newNode;
         oldNode?.getComponent(ScrollViewItem).onUnSelect();
         newNode?.getComponent(ScrollViewItem).onSelect();
-        
-        
+         
         this.mapNode.destroyAllChildren();
         qAsset.loadAsset(MapBundleName,data.path,Prefab).then(prefab=>{
             let newNode = instantiate(prefab);
@@ -61,12 +60,12 @@ export class MapEdit extends FWUIDialog {
         });
     }
 
-    onSelectWayPathClick() {
+    onSelectMapClick() {
         if(this._selectNode) {
             let item = this._selectNode.getComponent(ScrollViewItem)
             let config = item.data;
-            let index = this.scrollView.content.children.findIndex(v=>v==this._selectNode);
-            this.selectClickListener?.(index,config);
+            // let index = this.scrollView.content.children.findIndex(v=>v==this._selectNode);
+            this.selectClickListener?.(config);
             this.hide();
         }
     }
@@ -84,7 +83,7 @@ class ScrollViewItem extends Component {
     itemName:Label;
     bg:Sprite;
     data:ScrollViewItemData;
-    selectClickListener:Function;
+    selectClickListener:(index:number,data:ScrollViewItemData)=>void;
 
     protected onLoad(): void {
         this.itemName = this.node.getChildByName("name").getComponent(Label);

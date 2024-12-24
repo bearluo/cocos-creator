@@ -50,7 +50,7 @@ export class FWUIManager extends FWBaseManager {
     }
 
     async showDialog(config: IAssetConfig,data?:any) {
-        return await this._dialogManager.showDialog(config,data);
+        return await this._dialogManager.loadAndShowDialog(config,data);
     }
 
     closeDialog(dialog: FWUIDialog,data?:IHideData) {

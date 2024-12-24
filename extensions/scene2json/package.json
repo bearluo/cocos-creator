@@ -20,6 +20,13 @@
                 "methods": "./dist/assets-menu.js",
                 "assetMenu": "onAssetMenu"
             }
+        },
+        "inspector": {
+            "section": {
+                "node": {
+                    "fbx2json": "./dist/contributions/inspector/fbx2json.js"
+                }
+            }
         }
     }
 }

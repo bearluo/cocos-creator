@@ -1,4 +1,4 @@
-import { _decorator, Color, Component, EditBox, instantiate, Label, Node, Pool, Prefab, ScrollView, Sprite, Vec2, Vec3 } from 'cc';
+import { _decorator, Color, Component, EditBox, instantiate, Label, Node, Pool, Prefab, ScrollView, Sprite, UITransform, Vec2, Vec3 } from 'cc';
 import { IMonster, ISceneConfig } from '../../common/SceneConfig';
 import { qAsset, uiFunc } from '../../../framework/common/FWFunction';
 import { FWUIDialog } from '../../../framework/ui/FWUIDialog';
@@ -125,12 +125,12 @@ export class MosterEdit extends FWUIDialog {
         }
     }
 
-    initMonsterList(index: number, node: Node, data: string) {
+    initMonsterList(monster_id: number, node: Node, data: string) {
         let Node_prefab = node.getChildByName("Node_prefab");
         Node_prefab.destroyAllChildren();
         uiFunc.onClickSfx(node,()=>{
             {
-                let node = this.scrollView.content.children.find(v=>v.getComponent(ScrollViewItem).data.mosterID == index);
+                let node = this.scrollView.content.children.find(v=>v.getComponent(ScrollViewItem).data.mosterID == monster_id);
                 if (node) {
                     node.getComponent(ScrollViewItem).onSelectClick();
                     let height = node._uiProps.uiTransformComp.height;
@@ -144,7 +144,7 @@ export class MosterEdit extends FWUIDialog {
             let node = this.scrollViewItemPool.alloc();
             node.parent = this.scrollView.content;
             let config:IMonster = {
-                mosterID:index,
+                mosterID:monster_id,
                 maxCache:1,
             }
             node.getComponent(ScrollViewItem).loadConfig(config);
@@ -152,8 +152,8 @@ export class MosterEdit extends FWUIDialog {
             this.scrollView.scrollToBottom();
             game.edit.addMonsterConfig(config);
         });
-        
-        let monster = game.edit.allocMonster(index);
+
+        let monster = game.edit.allocMonster(monster_id);
         monster.node.parent = Node_prefab;
         monster.node.position = Vec3.ZERO;
     }

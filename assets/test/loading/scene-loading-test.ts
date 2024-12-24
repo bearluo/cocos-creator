@@ -32,7 +32,9 @@ export class scene_loading_test extends Component {
         let loading = this.loadPool.alloc();
         uiFunc.showLoading(loading);
         timer.scheduleOnce(()=>{
-            loading.hide();
+            loading.hide({
+                
+            });
             this.loadPool.free(loading);
         },this,5)
     }

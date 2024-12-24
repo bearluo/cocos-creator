@@ -14,6 +14,7 @@ import { SpawnerQueueEdit } from './view/SpawnerQueueEdit';
 import { Monster } from '../monster/Monster';
 import { Preview } from './OperatorPanel/preview/Preview';
 import { MapEdit } from './view/MapEdit';
+import { MonsterConfig } from '../monster/share';
 
 const { ccclass, property,type } = _decorator;
 
@@ -76,6 +77,10 @@ export class scene_TDGame_edit extends Component {
     }
 
     start() {
+        // 加载怪物配置
+        for (let i = 0; i < MonsterConfig.length; i++) {
+            this.monsterFactory.newMonsterPool(i,1)
+        }
         this.resetConfig(new SceneConfig())
         this.operatorPanel.children.forEach(v=>v.active = false);
         gameFunc.gotoEditMain();
@@ -94,7 +99,11 @@ export class scene_TDGame_edit extends Component {
             .then(async v=>{
                 let config = SceneConfig.deserialize(v);
                 uiFunc.asyncAssert(this);
-                this.monsterFactory.loadConfig(config);
+                let {monster} = config;
+                for(let i = 0;i<monster.length;i++) {
+                    let {mosterID,maxCache=5} = monster[i];
+                    this.monsterFactory.changeMonsterPoolMaxCache(mosterID,maxCache)
+                }
                 this.resetConfig(config)
             })
             .catch((error:Error)=>{
@@ -180,17 +189,15 @@ export class scene_TDGame_edit extends Component {
 
     deleteMonsterConfig(index:number) {
         this.config.monster.splice(index,1);
-        this.monsterFactory.loadConfig(this.config);
     }
 
     addMonsterConfig(data:IMonster) {
         this.config.monster.push(data);
-        this.monsterFactory.loadConfig(this.config);
     }
 
     changeMonsterConfig(index:number,data:IMonster) {
         this.config.monster[index] = data;
-        this.monsterFactory.loadConfig(this.config);
+        this.monsterFactory.changeMonsterPoolMaxCache(data.mosterID,data.maxCache);
     }
 
     async showWayPathEdit() {
@@ -259,6 +266,9 @@ export class scene_TDGame_edit extends Component {
         });
         uiFunc.asyncAssert(this);
         let view = dialog.node.getComponent(MapEdit);
+        view.selectClickListener = (data)=>{
+            this.config.map.path = data.path;
+        }
         // view.loadConfig(this.config);
         return view;
     }
