@@ -1,13 +1,13 @@
 {
-    "ver": "1.1.43",
-    "importer": "prefab",
-    "imported": true,
-    "uuid": "8fedf2b5-23fc-4cad-8847-ee0a031d641e",
-    "files": [
-        ".json"
-    ],
-    "subMetas": {},
-    "userData": {
-        "syncNodeName": "DeftSorceress"
-    }
+  "ver": "1.1.50",
+  "importer": "prefab",
+  "imported": true,
+  "uuid": "8fedf2b5-23fc-4cad-8847-ee0a031d641e",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "syncNodeName": "DeftSorceress"
+  }
 }

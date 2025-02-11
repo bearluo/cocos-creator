@@ -1,13 +1,13 @@
 {
-    "ver": "1.1.43",
-    "importer": "prefab",
-    "imported": true,
-    "uuid": "4d270ac9-300b-4373-a452-a50fb3c490b2",
-    "files": [
-        ".json"
-    ],
-    "subMetas": {},
-    "userData": {
-        "syncNodeName": "FlutteringPixie"
-    }
+  "ver": "1.1.50",
+  "importer": "prefab",
+  "imported": true,
+  "uuid": "4d270ac9-300b-4373-a452-a50fb3c490b2",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "syncNodeName": "FlutteringPixie"
+  }
 }

@@ -1,13 +1,13 @@
 {
-    "ver": "1.1.43",
-    "importer": "prefab",
-    "imported": true,
-    "uuid": "b800a2ee-8f14-406c-8ca9-52390cb69f8c",
-    "files": [
-        ".json"
-    ],
-    "subMetas": {},
-    "userData": {
-        "syncNodeName": "GoblinWolfRider"
-    }
+  "ver": "1.1.50",
+  "importer": "prefab",
+  "imported": true,
+  "uuid": "b800a2ee-8f14-406c-8ca9-52390cb69f8c",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "syncNodeName": "GoblinWolfRider"
+  }
 }

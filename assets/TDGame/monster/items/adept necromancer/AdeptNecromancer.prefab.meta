@@ -1,13 +1,13 @@
 {
-    "ver": "1.1.43",
-    "importer": "prefab",
-    "imported": true,
-    "uuid": "261ae8a2-e5a6-4a00-89bd-a417970df7b1",
-    "files": [
-        ".json"
-    ],
-    "subMetas": {},
-    "userData": {
-        "syncNodeName": "AdeptNecromancer"
-    }
+  "ver": "1.1.50",
+  "importer": "prefab",
+  "imported": true,
+  "uuid": "261ae8a2-e5a6-4a00-89bd-a417970df7b1",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "syncNodeName": "AdeptNecromancer"
+  }
 }

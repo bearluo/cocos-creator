@@ -1,13 +1,13 @@
 {
-    "ver": "1.1.43",
-    "importer": "prefab",
-    "imported": true,
-    "uuid": "fec9e503-a0db-48d2-9b00-ba089503b0f2",
-    "files": [
-        ".json"
-    ],
-    "subMetas": {},
-    "userData": {
-        "syncNodeName": "BestialLizardfolk"
-    }
+  "ver": "1.1.50",
+  "importer": "prefab",
+  "imported": true,
+  "uuid": "fec9e503-a0db-48d2-9b00-ba089503b0f2",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "syncNodeName": "BestialLizardfolk"
+  }
 }

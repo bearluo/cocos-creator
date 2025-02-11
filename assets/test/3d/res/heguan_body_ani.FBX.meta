@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.13",
   "importer": "fbx",
   "imported": true,
   "uuid": "91e19df0-8d32-4541-a9a4-ed76db7bd9af",
@@ -31,9 +31,10 @@
       "id": "c44bb",
       "name": "heguan.mesh",
       "userData": {
-        "gltfIndex": 0
+        "gltfIndex": 0,
+        "triangleCount": 676
       },
-      "ver": "1.1.0",
+      "ver": "1.1.1",
       "imported": true,
       "files": [
         ".bin",
@@ -48,9 +49,10 @@
       "id": "92a8f",
       "name": "shafa_mesh.mesh",
       "userData": {
-        "gltfIndex": 1
+        "gltfIndex": 1,
+        "triangleCount": 1786
       },
-      "ver": "1.1.0",
+      "ver": "1.1.1",
       "imported": true,
       "files": [
         ".bin",
@@ -74,7 +76,7 @@
         },
         "events": []
       },
-      "ver": "1.0.16",
+      "ver": "1.0.17",
       "imported": true,
       "files": [
         ".cconb"
@@ -98,40 +100,6 @@
       ],
       "subMetas": {}
     },
-    "df7df": {
-      "importer": "gltf-embeded-image",
-      "uuid": "91e19df0-8d32-4541-a9a4-ed76db7bd9af@df7df",
-      "displayName": "",
-      "id": "df7df",
-      "name": "贴图 #1.image",
-      "userData": {
-        "gltfIndex": 0
-      },
-      "ver": "1.0.3",
-      "imported": true,
-      "files": [
-        ".json",
-        ".png"
-      ],
-      "subMetas": {}
-    },
-    "425ef": {
-      "importer": "gltf-embeded-image",
-      "uuid": "91e19df0-8d32-4541-a9a4-ed76db7bd9af@425ef",
-      "displayName": "",
-      "id": "425ef",
-      "name": "贴图 #2.image",
-      "userData": {
-        "gltfIndex": 1
-      },
-      "ver": "1.0.3",
-      "imported": true,
-      "files": [
-        ".json",
-        ".png"
-      ],
-      "subMetas": {}
-    },
     "a96a6": {
       "importer": "texture",
       "uuid": "91e19df0-8d32-4541-a9a4-ed76db7bd9af@a96a6",
@@ -145,8 +113,8 @@
         "magfilter": "linear",
         "mipfilter": "none",
         "anisotropy": 0,
-        "isUuid": false,
-        "imageUuidOrDatabaseUri": "db://assets/test/3d/res/tex/heguan.png"
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "54679507-40f6-4f10-94a4-78dd24f83efc"
       },
       "ver": "1.0.22",
       "imported": true,
@@ -168,8 +136,8 @@
         "magfilter": "linear",
         "mipfilter": "none",
         "anisotropy": 0,
-        "isUuid": false,
-        "imageUuidOrDatabaseUri": "db://assets/test/3d/res/tex/sahfa.png"
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "0d7f2a0c-5a42-47f4-bc31-6c14d9f2f551"
       },
       "ver": "1.0.22",
       "imported": true,
@@ -219,7 +187,7 @@
       "userData": {
         "gltfIndex": 0
       },
-      "ver": "1.0.12",
+      "ver": "1.0.14",
       "imported": true,
       "files": [
         ".json"
@@ -231,17 +199,18 @@
     "imageMetas": [
       {
         "name": "贴图 #1",
-        "remap": "db://assets/test/3d/res/tex/heguan.png",
-        "uri": "91e19df0-8d32-4541-a9a4-ed76db7bd9af@df7df"
+        "remap": "54679507-40f6-4f10-94a4-78dd24f83efc",
+        "uri": "db://assets/test/3d/res/tex/heguan.png"
       },
       {
         "name": "贴图 #2",
-        "remap": "db://assets/test/3d/res/tex/sahfa.png",
-        "uri": "91e19df0-8d32-4541-a9a4-ed76db7bd9af@425ef"
+        "remap": "0d7f2a0c-5a42-47f4-bc31-6c14d9f2f551",
+        "uri": "db://assets/test/3d/res/tex/sahfa.png"
       }
     ],
     "fbx": {
-      "smartMaterialEnabled": true
+      "smartMaterialEnabled": true,
+      "matchMeshNames": false
     },
     "animationImportSettings": [
       {
@@ -253,12 +222,12 @@
             "name": "Take 001",
             "from": 0,
             "to": 44.66666793823242,
-            "wrapMode": 2
+            "wrapMode": 2,
+            "previousId": "73b7f"
           }
         ]
       }
     ],
-    "redirect": "91e19df0-8d32-4541-a9a4-ed76db7bd9af@7c6e7",
     "assetFinder": {
       "meshes": [
         "91e19df0-8d32-4541-a9a4-ed76db7bd9af@c44bb",
@@ -278,6 +247,24 @@
       ],
       "scenes": [
         "91e19df0-8d32-4541-a9a4-ed76db7bd9af@7c6e7"
+      ]
+    },
+    "lods": {
+      "enable": false,
+      "hasBuiltinLOD": false,
+      "options": [
+        {
+          "screenRatio": 0.25,
+          "faceCount": 1
+        },
+        {
+          "screenRatio": 0.125,
+          "faceCount": 0.25
+        },
+        {
+          "screenRatio": 0.01,
+          "faceCount": 0.1
+        }
       ]
     }
   }

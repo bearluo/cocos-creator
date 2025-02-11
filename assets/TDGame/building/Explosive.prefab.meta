@@ -1,13 +1,13 @@
 {
-  "ver": "1.1.43",
+  "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "d1f26e6f-a95b-4b2a-9363-8f8fb38050ce",
+  "uuid": "1d90015a-4b87-425e-9b09-34128f267e2a",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "BuildNode"
+    "syncNodeName": "Explosive"
   }
 }

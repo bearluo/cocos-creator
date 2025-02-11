@@ -43,6 +43,7 @@ export enum PHY_GROUP {
     build = 1 << 1,
     monster = 1 << 2,
     bullet = 1 << 3,
+    damage = 1 << 4,
 };
 
 export const game:IGame = {}

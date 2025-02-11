@@ -1,5 +1,5 @@
 {
-  "ver": "1.0.25",
+  "ver": "1.0.27",
   "importer": "image",
   "imported": true,
   "uuid": "e4cf40b1-4116-4085-952f-356c1166da73",
@@ -34,7 +34,7 @@
       "name": "texture"
     },
     "f9941": {
-      "ver": "1.0.11",
+      "ver": "1.0.12",
       "importer": "sprite-frame",
       "uuid": "e4cf40b1-4116-4085-952f-356c1166da73@f9941",
       "imported": true,
@@ -136,7 +136,7 @@
   },
   "userData": {
     "type": "sprite-frame",
-    "redirect": "e4cf40b1-4116-4085-952f-356c1166da73@f9941",
+    "redirect": "e4cf40b1-4116-4085-952f-356c1166da73@6c48a",
     "hasAlpha": false,
     "fixAlphaTransparencyArtifacts": false
   }

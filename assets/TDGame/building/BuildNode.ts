@@ -46,9 +46,9 @@ export class BuildNode extends Component {
      */
     fire(obj:Monster) {
         let bullet = instantiate(this.bullet);
-        bullet.parent = GameManager.instance.gameLayer;
         bullet.setPosition(this.node.position);
         bullet.getComponent(BulletNode).aim(obj);
+        GameManager.instance.addObj(bullet);
     }
     
     onBeginContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {

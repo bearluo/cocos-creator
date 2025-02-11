@@ -1,5 +1,5 @@
 {
-  "ver": "2.3.3",
+  "ver": "2.3.13",
   "importer": "fbx",
   "imported": true,
   "uuid": "da21cdde-2afd-4fed-b8e8-b537c3f3ed1a",
@@ -12,9 +12,10 @@
       "id": "a62fe",
       "name": "Scene.mesh",
       "userData": {
-        "gltfIndex": 0
+        "gltfIndex": 0,
+        "triangleCount": 14
       },
-      "ver": "1.1.0",
+      "ver": "1.1.1",
       "imported": true,
       "files": [
         ".bin",
@@ -47,7 +48,7 @@
       "userData": {
         "gltfIndex": 0
       },
-      "ver": "1.0.12",
+      "ver": "1.0.14",
       "imported": true,
       "files": [
         ".json"
@@ -58,9 +59,9 @@
   "userData": {
     "imageMetas": [],
     "fbx": {
-      "smartMaterialEnabled": true
+      "smartMaterialEnabled": true,
+      "matchMeshNames": false
     },
-    "redirect": "da21cdde-2afd-4fed-b8e8-b537c3f3ed1a@607aa",
     "assetFinder": {
       "meshes": [
         "da21cdde-2afd-4fed-b8e8-b537c3f3ed1a@a62fe"
@@ -72,6 +73,24 @@
       ],
       "scenes": [
         "da21cdde-2afd-4fed-b8e8-b537c3f3ed1a@607aa"
+      ]
+    },
+    "lods": {
+      "enable": false,
+      "hasBuiltinLOD": false,
+      "options": [
+        {
+          "screenRatio": 0.25,
+          "faceCount": 1
+        },
+        {
+          "screenRatio": 0.125,
+          "faceCount": 0.25
+        },
+        {
+          "screenRatio": 0.01,
+          "faceCount": 0.1
+        }
       ]
     }
   }

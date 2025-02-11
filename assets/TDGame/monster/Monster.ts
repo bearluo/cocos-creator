@@ -1,7 +1,10 @@
-import { _decorator, CCInteger, CCString, CircleCollider2D, Collider2D, Component, Contact2DType, deserialize, IPhysics2DContact, JsonAsset, Node, Vec3 } from 'cc';
+import { _decorator, CCInteger, CCString, CircleCollider2D, clamp, Collider2D, Component, Contact2DType, deserialize, IPhysics2DContact, JsonAsset, Node, Vec3 } from 'cc';
 import { WayPathTracker } from '../simpleWayPointSystem/WayPathTracker';
 import { PHY_GROUP } from '../common/constant';
 import { BulletNode } from '../bullet/BulletNode';
+import { health_bar } from '../view/health_bar';
+import { GameManager } from '../manager/GameManager';
+import { Log } from '../../framework/common/FWLog';
 const { ccclass, property,type } = _decorator;
 
 @ccclass('Monster')
@@ -10,16 +13,22 @@ export class Monster extends Component {
     monster_id:number = 0;
     wayPathTracker: WayPathTracker;
     collider2D: Collider2D;
+    health_bar: health_bar;
+    health_max_val: number = 1000;
+    private _health_val: number = 1000;
 
     protected onLoad(): void {
         this.wayPathTracker = this.node.getComponent(WayPathTracker) ?? this.node.addComponent(WayPathTracker);
         this.wayPathTracker.on("WayPathTracker-end",this.onMoveEnd,this);
+        this.health_bar = this.node.getComponentInChildren(health_bar);
+        this.health_bar.resetProgress(1);
+        this.health_bar.node.active = false;
     }
     
     start() {
-        this.collider2D = this.getComponent(Collider2D);
-        this.collider2D.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
-        this.collider2D.on(Contact2DType.END_CONTACT, this.onEndContact, this);
+        // this.collider2D = this.getComponent(Collider2D);
+        // this.collider2D.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
+        // this.collider2D.on(Contact2DType.END_CONTACT, this.onEndContact, this);
     }
 
     update(deltaTime: number) {
@@ -42,16 +51,18 @@ export class Monster extends Component {
      * @param value 
      */
     takeDamage(value:number) {
-
+        this.health_bar.node.active = true;
+        this._health_val -=  value;
+        this._health_val = clamp(this._health_val,0,this.health_max_val);
+        this.health_bar.setProgress(this._health_val / this.health_max_val);
+        if ( this._health_val == 0 ) {
+            GameManager.instance.removeObj(this.node);
+        }
     }
 
     onBeginContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {
         // 只在两个碰撞体开始接触时被调用一次
         // console.log('onBeginContact');
-        if ( otherCollider.group == PHY_GROUP.bullet) {
-            let bullet = otherCollider.node.getComponent(BulletNode);
-            bullet.dealDamage(this);
-        }
     }
 
     onEndContact (selfCollider: Collider2D, otherCollider: Collider2D, contact: IPhysics2DContact | null) {

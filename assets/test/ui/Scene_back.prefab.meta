@@ -1,1 +1,13 @@
-{"ver":"1.1.43","importer":"prefab","imported":true,"uuid":"11bb9d7c-badd-419b-8dde-21570b7647ca","files":[".json"],"subMetas":{},"userData":{"syncNodeName":"Scene_back"}}
+{
+  "ver": "1.1.50",
+  "importer": "prefab",
+  "imported": true,
+  "uuid": "11bb9d7c-badd-419b-8dde-21570b7647ca",
+  "files": [
+    ".json"
+  ],
+  "subMetas": {},
+  "userData": {
+    "syncNodeName": "Scene_back"
+  }
+}
