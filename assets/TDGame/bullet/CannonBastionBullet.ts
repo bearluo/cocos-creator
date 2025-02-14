@@ -8,8 +8,8 @@ const { ccclass, property } = _decorator;
 
 var tempVec3 = new Vec3();
 
-@ccclass('CannonBastion')
-export class CannonBastion extends BulletNode {
+@ccclass('CannonBastionBullet')
+export class CannonBastionBullet extends BulletNode {
     /**
      * 区域对象
      */
@@ -17,11 +17,6 @@ export class CannonBastion extends BulletNode {
         type:Prefab
     })
     areaDamage:Prefab;
-    /**
-     * 伤害值
-     */
-    @property
-    damage:number = 100;
 
     takeDamage(obj:Monster, originObj:TDObject) {
         if ( !super.takeDamage(obj,originObj) ) return false;

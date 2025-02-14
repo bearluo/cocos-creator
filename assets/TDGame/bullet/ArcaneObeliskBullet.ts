@@ -6,11 +6,8 @@ import { BulletNode } from '../base/BulletNode';
 import { TDObject } from '../base/TDObject';
 const { ccclass, property } = _decorator;
 
-@ccclass('ArcaneObelisk')
-export class ArcaneObelisk extends BulletNode {
-
-    @property
-    damage:number = 100;
+@ccclass('ArcaneObeliskBullet')
+export class ArcaneObeliskBullet extends BulletNode {
 
     takeDamage(obj:Monster, originObj:TDObject) {
         if ( !super.takeDamage(obj,originObj) ) return false;

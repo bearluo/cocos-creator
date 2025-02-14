@@ -5,11 +5,8 @@ import { GameManager } from '../manager/GameManager';
 import { TDObject } from '../base/TDObject';
 const { ccclass, property } = _decorator;
 
-@ccclass('ArrowSpire')
-export class ArrowSpire extends BulletNode {
-
-    @property
-    damage:number = 100;
+@ccclass('ArrowSpireBullet')
+export class ArrowSpireBullet extends BulletNode {
 
     takeDamage(obj:Monster, originObj:TDObject) {
         if ( !super.takeDamage(obj,originObj) ) return false;

@@ -1,11 +1,11 @@
 import { _decorator, CCInteger, CCString, CircleCollider2D, clamp, Collider2D, Component, Contact2DType, deserialize, IPhysics2DContact, JsonAsset, Node, Vec3 } from 'cc';
 import { WayPathTracker } from '../simpleWayPointSystem/WayPathTracker';
 import { PHY_GROUP } from '../common/constant';
-import { health_bar } from '../view/health_bar';
 import { GameManager } from '../manager/GameManager';
 import { Log } from '../../framework/common/FWLog';
 import { BaseMonster } from '../base/BaseMonster';
 import { TDObject } from '../base/TDObject';
+import { health_bar } from '../healthBar/health_bar';
 const { ccclass, property,type } = _decorator;
 
 @ccclass('Monster')

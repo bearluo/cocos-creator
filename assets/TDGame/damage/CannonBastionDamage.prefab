@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "ArcaneObelisk",
+    "_name": "CannonBastionDamage",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ArcaneObelisk",
+    "_name": "CannonBastionDamage",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -133,8 +133,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 5,
-      "height": 5
+      "width": 50,
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -246,9 +246,9 @@
       "__id__": 11
     },
     "enabledContactListener": true,
-    "bullet": true,
+    "bullet": false,
     "awakeOnLoad": true,
-    "_group": 8,
+    "_group": 16,
     "_type": 1,
     "_allowSleep": true,
     "_gravityScale": 1,
@@ -280,7 +280,7 @@
       "__id__": 13
     },
     "tag": 0,
-    "_group": 8,
+    "_group": 16,
     "_density": 1,
     "_sensor": true,
     "_friction": 0.2,
@@ -290,7 +290,7 @@
       "x": 0,
       "y": 0
     },
-    "_radius": 2.5,
+    "_radius": 35.5,
     "_id": ""
   },
   {
@@ -298,7 +298,7 @@
     "fileId": "65XHi3t4RFbquB8hO3ruNn"
   },
   {
-    "__type__": "821b673qgVMrIA74yxTCXxR",
+    "__type__": "d1db1goElBHtK6KBd20cj0d",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -309,13 +309,12 @@
     "__prefab": {
       "__id__": 15
     },
-    "speed": 500,
-    "damage": 100,
+    "damage": 300,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "13SgEMcUxCJqnPZ+FJEVen"
+    "fileId": "5dOpiesVZP46HB7p5krwdn"
   },
   {
     "__type__": "cc.PrefabInfo",

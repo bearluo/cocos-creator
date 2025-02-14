@@ -5,8 +5,8 @@ import { DamageNode } from '../base/DamageNode';
 import { TDObject } from '../base/TDObject';
 const { ccclass, property } = _decorator;
 
-@ccclass('ExplosiveDamage')
-export class ExplosiveDamage extends DamageNode {
+@ccclass('CannonBastionDamage')
+export class CannonBastionDamage extends DamageNode {
     takeDamage(value:number, originObj:TDObject) {
         if(!super.takeDamage(value, originObj)) return false;
         // log.print("ExplosiveDamage",this._monsterSet.size)

@@ -2,12 +2,12 @@
   "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "92e9fa9c-8935-45bf-8a52-05ae3c9bcee1",
+  "uuid": "5417b479-2eb4-42f1-9679-19baa87c42d5",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "ArcaneObelisk"
+    "syncNodeName": "CannonBastionBullet"
   }
 }

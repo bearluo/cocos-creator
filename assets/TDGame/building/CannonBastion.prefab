@@ -349,7 +349,6 @@
     "__type__": "56042lvvcZPZanFo4VMH4HO",
     "_name": "",
     "_objFlags": 0,
-    "__editorExtras__": {},
     "node": {
       "__id__": 1
     },
@@ -357,11 +356,12 @@
     "__prefab": {
       "__id__": 17
     },
+    "damage": 300,
     "bullet": {
       "__uuid__": "5417b479-2eb4-42f1-9679-19baa87c42d5",
       "__expectedType__": "cc.Prefab"
     },
-    "_id": ""
+    "_id": "a14dF1409BiYTEd9yl2Nos"
   },
   {
     "__type__": "cc.CompPrefabInfo",

@@ -51,11 +51,16 @@ export class BuildNode extends TDObjectBuff {
 
 export class FireBuildNode extends BuildNode {
     /**
+     * 伤害值
+     */
+    @property
+    damage:number = 100;
+    /**
      * 开火冷却时间
      */
     fireCooldownTime:number=1;
     /**
-     * 开会倒计时
+     * 开火倒计时
      */
     fireCountdown:number=0;
     /**
@@ -80,11 +85,18 @@ export class FireBuildNode extends BuildNode {
      */
     fire() {
         let obj = this.monsterList[0];
-        let bullet = instantiate(this.bullet);
+        let bullet = this.createBullet();
         bullet.setPosition(this.node.position);
-        let node = bullet.getComponent(BulletNode);
-        node.originObj = this;
-        node.aim(obj);
+        let com = bullet.getComponent(BulletNode);
+        com.aim(obj);
         GameManager.instance.addObj(bullet);
+    }
+
+    createBullet() {
+        let bullet = instantiate(this.bullet);
+        let com = bullet.getComponent(BulletNode);
+        com.damage = this.damage;
+        com.originObj = this;
+        return bullet
     }
 }

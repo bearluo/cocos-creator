@@ -8,8 +8,6 @@ import { TDObject, TDObjectBuff } from '../base/TDObject';
 const { ccclass, property } = _decorator;
 
 var tempVec3 = new Vec3();
-
-@ccclass('BulletNode')
 export class BulletNode extends Component {
     die:boolean = false;
     originObj:TDObject;
@@ -17,6 +15,9 @@ export class BulletNode extends Component {
     
     @property
     speed:number = 500;
+
+    @property
+    damage:number = 100;
 
     protected _tempPos:Vec3 = new Vec3();
     collider2D: Collider2D;
