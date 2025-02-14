@@ -18,7 +18,9 @@ class SpawnerItem {
         
     }
 }
-
+/**
+ * 刷怪笼
+ */
 @ccclass('Spawner')
 export class Spawner extends Component {
     @type([Vec3])
@@ -48,9 +50,9 @@ export class Spawner extends Component {
         this.anchors = this.anchors.concat(points.map(v=>v.clone()));
     }
 
-    walk(deltaTime: number) {
+    tick(deltaTime: number) {
         this.monsterList.forEach(v=>{
-            v.walk(deltaTime);
+            v.tick(deltaTime);
         })
 
         this._totalTime += deltaTime;
@@ -65,7 +67,7 @@ export class Spawner extends Component {
             node.on("Monster-Free",this.onMonsterFree,this)
             node.on("Monster-Move-end",this.onMonsterFree,this)
             node.parent = this.monsterLayer;
-            monster.walk(offsetTime);
+            monster.tick(offsetTime);
         }
     }
 

@@ -4,6 +4,7 @@ import { GameManager } from '../manager/GameManager';
 import { log } from '../../framework/common/FWLog';
 import { PHY_GROUP } from '../common/constant';
 import { MainThrend } from '../../framework/common/FWDecorator';
+import { TDObject, TDObjectBuff } from '../base/TDObject';
 const { ccclass, property } = _decorator;
 
 var tempVec3 = new Vec3();
@@ -11,6 +12,7 @@ var tempVec3 = new Vec3();
 @ccclass('BulletNode')
 export class BulletNode extends Component {
     die:boolean = false;
+    originObj:TDObject;
     target:Monster;
     
     @property
@@ -25,8 +27,16 @@ export class BulletNode extends Component {
         this.collider2D.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this);
         this.collider2D.on(Contact2DType.END_CONTACT, this.onEndContact, this);
     }
+    
+    protected onEnable() {
+        GameManager.instance.addBullet(this);
+    }
 
-    update(deltaTime: number) {
+    protected onDisable() {
+        GameManager.instance.removeBullet(this);
+    }
+
+    tick(deltaTime: number) {
         if(this.die) {
             return false
         }
@@ -37,7 +47,7 @@ export class BulletNode extends Component {
         let length = tempVec3.length();
         let moveL = this.speed * deltaTime;
         if( tempVec3.length() < Number.EPSILON) {
-            this.takeDamage(null);
+            this.takeDamage(null,this.originObj);
         } else if ( moveL < length ) {
             Vec3.add(tempVec3,this.node.position,tempVec3.normalize().multiplyScalar(moveL))
             this.node.setPosition(tempVec3);
@@ -46,7 +56,7 @@ export class BulletNode extends Component {
         }
     }
 
-    takeDamage(obj:Monster) {
+    takeDamage(obj:Monster, originObj:TDObject) {
         if(this.die) {
             return false
         }
@@ -66,7 +76,9 @@ export class BulletNode extends Component {
         // console.log('onBeginContact');
         if ( otherCollider.group == PHY_GROUP.monster) {
             let obj = otherCollider.node.getComponent(Monster);
-            this.takeDamage(obj);
+            if (obj === this.target) {
+                this.takeDamage(obj, this.originObj);
+            }
         }
     }
     

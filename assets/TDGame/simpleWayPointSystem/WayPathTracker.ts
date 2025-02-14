@@ -31,7 +31,7 @@ export class WayPathTracker extends Eventify(Component) {
     }
 
     update(deltaTime: number) {
-        if (this.isRunning) this.walk(deltaTime);
+        
     }
 
     reset(points: Vec3[]) {
@@ -41,8 +41,10 @@ export class WayPathTracker extends Eventify(Component) {
         return this.targetPosition;
     }
     
-    walk(deltaTime: number) {
-        this.move(this.speed * deltaTime);
+    tick(deltaTime: number) {
+        if (this.isRunning) {
+            this.move(this.speed * deltaTime);
+        }
     }
      
     move(moveLen:number) {

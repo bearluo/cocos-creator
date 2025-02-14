@@ -59,12 +59,12 @@ export class Preview extends Component {
     }
 
     update(deltaTime: number) {
-        if(this._running) this.walk(deltaTime);
+        if(this._running) this.tick(deltaTime);
     }
 
-    walk(deltaTime: number) {
+    tick(deltaTime: number) {
         this._curTime += deltaTime;
-        this.list.forEach(v=>v.spawner.walk(deltaTime));
+        this.list.forEach(v=>v.spawner.tick(deltaTime));
     }
 
     loadConfig(config:IPreviewConfig) {

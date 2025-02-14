@@ -28,10 +28,10 @@ export class WayPathTrackerTime extends Eventify(Component) {
     }
 
     update(deltaTime: number) {
-        if (this.isRunning) this.walk(deltaTime);
+        if (this.isRunning) this.tick(deltaTime);
     }
     
-    walk(deltaTime: number) {
+    tick(deltaTime: number) {
         this._curTime += deltaTime;
         this.setProgress(this._curTime / this.totolTime);
     }

@@ -2,12 +2,12 @@
   "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "5417b479-2eb4-42f1-9679-19baa87c42d5",
+  "uuid": "45dadcd5-b965-4ffd-992f-9a13c1e7abca",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "Explosive"
+    "syncNodeName": "ArcaneObelisk"
   }
 }

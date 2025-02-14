@@ -34,7 +34,7 @@ export class SpawnerEditOP extends Component {
     }
 
     update(deltaTime: number) {
-        this.spawner.walk(deltaTime);
+        this.spawner.tick(deltaTime);
     }
 
     loadConfig(config:ISpawnerEditConfig) {

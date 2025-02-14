@@ -2,12 +2,12 @@
   "ver": "1.1.50",
   "importer": "prefab",
   "imported": true,
-  "uuid": "9f8dff1f-87f6-4aef-8152-3a780461687b",
+  "uuid": "02906681-dc0f-4fd9-9dfc-7788638adaaf",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "BasicProjectile"
+    "syncNodeName": "FrostNexus"
   }
 }

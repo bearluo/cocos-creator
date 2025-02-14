@@ -1,7 +1,9 @@
 import { _decorator, Component, instantiate, Node } from 'cc';
 import { GameManager } from '../manager/GameManager';
 const { ccclass, property } = _decorator;
-
+/**
+ * 刷怪点
+ */
 @ccclass('monster_spawn_point')
 export class monster_spawn_point extends Component {
 
