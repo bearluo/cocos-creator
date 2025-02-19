@@ -1,9 +1,21 @@
-import { _decorator, Component, Eventify, Node, Vec3 } from 'cc';
+import { _decorator, Component, Eventify,EventTarget, Node, Vec3 } from 'cc';
 import { WayPath } from './WayPath';
+import { FWEvent } from '../../framework/events/FWEvents';
 const { ccclass, property } = _decorator;
 
+export interface WayPathTracker_event_protocol {
+    /**
+     * 
+     */
+    WayPathTracker_end
+}
+
 @ccclass('WayPathTracker')
-export class WayPathTracker extends Eventify(Component) {
+export class WayPathTracker extends Component {
+    event:FWEvent<WayPathTracker_event_protocol> = new FWEvent();
+    @property({
+        type:WayPath,
+    })
     public path:WayPath;
     private _curPathIndex:number = 0;
     @property
@@ -22,7 +34,6 @@ export class WayPathTracker extends Eventify(Component) {
     }
 
     protected onLoad(): void {
-        this.path = this.node.getComponent(WayPath) ?? this.node.addComponent(WayPath);
         Vec3.copy(this.targetPosition, this.path.getPoint(this._curPathIndex))
     }
 
@@ -56,7 +67,7 @@ export class WayPathTracker extends Eventify(Component) {
             this.node.position = this.targetPosition;
             if (this._curPathIndex >= this.path.pointCount) {
                 this._curPathIndex = this.isLooping ? 0 : this.path.pointCount - 1;
-                this.emit("WayPathTracker-end");
+                this.event.emit(this.event.key.WayPathTracker_end);
                 if(!this.isLooping) {
                     return
                 }

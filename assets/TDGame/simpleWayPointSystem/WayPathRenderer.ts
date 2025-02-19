@@ -3,10 +3,12 @@ import { WayPath } from './WayPath';
 const { ccclass, property,requireComponent,executeInEditMode,type } = _decorator;
 
 @ccclass('WayPathRenderer')
-@requireComponent(WayPath)
 @requireComponent(Graphics)
 @executeInEditMode
 export class WayPathRenderer extends Component {
+    @property({
+        type:WayPath,
+    })
     public path:WayPath;
     public draw:Graphics;
     public selectIndex:number = -1;
@@ -20,7 +22,6 @@ export class WayPathRenderer extends Component {
     }
 
     protected onLoad(): void {
-        this.path = this.node.getComponent(WayPath);
         this.draw = this.node.getComponent(Graphics);
     }
 
@@ -28,11 +29,11 @@ export class WayPathRenderer extends Component {
     }
 
     onEnable(): void {
-        this.path?.on("PathChanged",this.drawPath,this);
+        this.path?.event.on(this.path.event.key.PathChanged,this.drawPath,this);
     }
 
     onDisable(): void {
-        this.path?.off("PathChanged",this.drawPath,this);
+        this.path?.event.off(this.path.event.key.PathChanged,this.drawPath,this);
     }
 
     update(deltaTime: number) {

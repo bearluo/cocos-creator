@@ -20,7 +20,7 @@ export class Monster extends BaseMonster {
 
     protected onLoad(): void {
         this.wayPathTracker = this.node.getComponent(WayPathTracker) ?? this.node.addComponent(WayPathTracker);
-        this.wayPathTracker.on("WayPathTracker-end",this.onMoveEnd,this);
+        this.wayPathTracker.event.on(this.wayPathTracker.event.key.WayPathTracker_end,this.onMoveEnd,this);
         this.health_bar = this.node.getComponentInChildren(health_bar);
         this.health_bar.resetProgress(1);
         this.health_bar.node.active = false;

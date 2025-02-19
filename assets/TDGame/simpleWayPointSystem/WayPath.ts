@@ -1,13 +1,22 @@
 import { _decorator, CCBoolean, Component, Eventify, math, Node, Vec3 } from 'cc';
 import { log } from '../../framework/common/FWLog';
 import { EDITOR } from 'cc/env';
+import { FWEvent } from '../../framework/events/FWEvents';
 const { ccclass, property,type,executeInEditMode } = _decorator;
 
 let tmp = new Vec3();
 let outTmp = new Vec3();
 
+export interface WayPath_event_protocol {
+    /**
+     * 路线变更
+     */
+    PathChanged,
+}
+
 @ccclass('WayPath')
-export class WayPath extends Eventify(Component) {
+export class WayPath extends Component {
+    event:FWEvent<WayPath_event_protocol> = new FWEvent();
     @type([Vec3])
     anchors: Vec3[] = [];
     curveAnchors: Vec3[];
@@ -148,7 +157,7 @@ export class WayPath extends Eventify(Component) {
             }
     
             // if (PathChanged != null) PathChanged.Invoke();
-            this.emit("PathChanged")
+            this.event.emit(this.event.key.PathChanged);
     }
 
     private static lerp(pts:Vec3[], t:number,out:Vec3 = new Vec3()) {

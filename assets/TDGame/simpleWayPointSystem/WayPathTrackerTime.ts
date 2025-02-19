@@ -5,7 +5,7 @@ const { ccclass, property } = _decorator;
 const tempVec3 = new Vec3();
 
 @ccclass('WayPathTrackerTime')
-export class WayPathTrackerTime extends Eventify(Component) {
+export class WayPathTrackerTime extends Component {
     public path:WayPath;
     @property
     totolTime = 10;

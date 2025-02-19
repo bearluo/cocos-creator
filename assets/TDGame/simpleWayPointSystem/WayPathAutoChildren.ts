@@ -5,11 +5,13 @@ const { ccclass, property,requireComponent,executeInEditMode,type } = _decorator
 @ccclass('WayPathAutoChildren')
 @executeInEditMode
 export class WayPathAutoChildren extends Component {
-    @type(WayPath)
+    @property({
+        type:WayPath,
+    })
     public path:WayPath;
     private _layoutDirty: boolean;
     protected onLoad(): void {
-        // this.path = this.node.getComponent(WayPath);
+        
     }
     start() {
         this._doLayoutDirty();
