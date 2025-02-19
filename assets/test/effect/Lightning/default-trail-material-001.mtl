@@ -5,11 +5,12 @@
   "__editorExtras__": {},
   "_native": "",
   "_effectAsset": {
-    "__uuid__": "694b3f98-d28f-4519-808f-5c31724d4469",
+    "__uuid__": "17debcc3-0a6b-4b8a-b00b-dc58b885581e",
     "__expectedType__": "cc.EffectAsset"
   },
   "_techIdx": 0,
   "_defines": [
+    {},
     {}
   ],
   "_states": [
@@ -21,9 +22,24 @@
           {}
         ]
       }
+    },
+    {
+      "rasterizerState": {},
+      "depthStencilState": {},
+      "blendState": {
+        "targets": [
+          {}
+        ]
+      }
     }
   ],
   "_props": [
+    {
+      "mainTexture": {
+        "__uuid__": "567f301c-7e25-49b0-a4e7-052b5323b100@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      }
+    },
     {}
   ]
 }
