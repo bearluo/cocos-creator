@@ -1,0 +1,162 @@
+type: Graph
+name: test1
+nodes:
+  t_173996224875904954307:
+    type: UnlitMasterNode
+    position:
+      x: 347
+      'y': -280
+    details:
+      inputPins:
+        - dataType: vec3
+          value:
+            x: 0
+            'y': 0
+            z: 0
+          details: {}
+        - dataType: vec3
+          value:
+            x: 0
+            'y': 0
+            z: 0
+          details: {}
+        - dataType: vec3
+          value:
+            x: 0
+            'y': 0
+            z: 0
+          details: {}
+        - dataType: color
+          value:
+            x: 0.5
+            'y': 0.5
+            z: 0.5
+            w: 0.5
+          details: {}
+        - dataType: float
+          value: 1
+          details: {}
+        - dataType: float
+          value: 0
+          details: {}
+      outputPins: []
+  t_1739962275734051947956:
+    type: PropertyNode
+    position:
+      x: -658
+      'y': -186.5
+    details:
+      propertyID: p_1739962267093685049
+      baseType: Texture2D
+      title: Texture2D111
+      outputPins: &ref_0
+        - dataType: texture2D
+          value:
+            uuid: 91e19df0-8d32-4541-a9a4-ed76db7bd9af@a96a6
+          details:
+            connectType: texture2D
+      inputPins: []
+  t_1739962285016575262654:
+    type: SampleTexture2D
+    position:
+      x: -166.46153846153848
+      'y': -149.5
+    details:
+      outputPins:
+        - dataType: vec4
+          value:
+            x: 0
+            'y': 0
+            z: 0
+            w: 0
+          details: {}
+        - dataType: float
+          value: 0
+          details: {}
+        - dataType: float
+          value: 0
+          details: {}
+        - dataType: float
+          value: 0
+          details: {}
+        - dataType: float
+          value: 0
+          details: {}
+      inputPins:
+        - dataType: texture2D
+          value:
+            uuid: ''
+          details: {}
+        - dataType: vec2
+          value:
+            x: 0
+            'y': 0
+          details: {}
+        - dataType: enum
+          value: 0
+          details: {}
+        - dataType: enum
+          value: 0
+          details: {}
+  t_17400164815228785943:
+    type: PropertyNode
+    position:
+      x: -445.16129032258067
+      'y': -420.9677419354839
+    details:
+      propertyID: p_174001647141031289467
+      baseType: TextureCube
+      title: TextureCube
+      outputPins:
+        - dataType: textureCube
+          value:
+            uuid: d032ac98-05e1-4090-88bb-eb640dcb5fc1@b47c0
+          details:
+            connectType: textureCube
+      inputPins: []
+graphs: {}
+lines:
+  t_173996229332634907044:
+    type: curve
+    details: {}
+    input:
+      node: t_1739962285016575262654
+      param: out_SampleTexture2D_vec4_RGBA
+    output:
+      node: t_173996224875904954307
+      param: input_UnlitMasterNode_color_BaseColor
+  t_1740016508839365070323:
+    type: curve
+    details: {}
+    input:
+      node: t_1739962275734051947956
+      param: out_PropertyNode_any_Out
+    output:
+      node: t_1739962285016575262654
+      param: input_SampleTexture2D_texture2D_Texture
+details:
+  properties:
+    - id: p_1739962267093685049
+      name: Texture2D111
+      type: Texture2D
+      declareType: PropertyNode
+      outputPins: *ref_0
+    - id: p_174001637534443758862
+      type: Boolean
+      name: Boolean
+      declareType: PropertyNode
+      outputPins:
+        - dataType: boolean
+          value: false
+          details:
+            connectType: boolean
+    - id: p_174001647141031289467
+      name: TextureCube
+      type: TextureCube
+      declareType: PropertyNode
+      outputPins:
+        - dataType: textureCube
+          value:
+            uuid: d032ac98-05e1-4090-88bb-eb640dcb5fc1@b47c0
+          details:
+            connectType: textureCube

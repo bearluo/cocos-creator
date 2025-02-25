@@ -1,0 +1,24 @@
+{
+  "ver": "1.2.0",
+  "importer": "directory",
+  "imported": true,
+  "uuid": "9d8d7731-cf44-40b4-9d14-15bf9e2f2e76",
+  "files": [],
+  "subMetas": {},
+  "userData": {
+    "isBundle": true,
+    "bundleFilterConfig": [
+      {
+        "range": "exclude",
+        "type": "url",
+        "patchOption": {
+          "patchType": "beginWith",
+          "value": "db://assets/MJGame/2d/test"
+        },
+        "assets": [
+          ""
+        ]
+      }
+    ]
+  }
+}
