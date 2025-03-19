@@ -75,6 +75,11 @@ if (!BUILD) {
         director.once(Director.EVENT_AFTER_SCENE_LAUNCH, () => {
             new FWApplication();
         })
+    } else {
+        // console.log("重新初始化Application");
+        // console.log(typeof(app) == "undefined");
+        new FWApplication();
+        // console.log(typeof(app) == "undefined");
     }
 }
 

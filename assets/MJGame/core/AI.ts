@@ -19,17 +19,36 @@ export class AI {
     }
 
     // AI 判断是否碰牌
-    shouldPong(tile: Tile): boolean {
-        return Rule.canPong(this.hand, tile);
+    shouldPeng(tile: Tile): boolean {
+        return Rule.canPeng(this.hand, tile);
     }
 
     // AI 判断是否杠牌
-    shouldKong(tile: Tile): boolean {
-        return Rule.canKong(this.hand, tile);
+    shouldGang(tile: Tile): boolean {
+        return Rule.canGang(this.hand, tile);
     }
 
     // AI 判断是否胡牌
-    shouldWin(): boolean {
-        return Rule.canWin(this.hand);
+    shouldWin(tile: Tile): boolean {
+        return Rule.canWin(this.hand, tile);
+    }
+
+    // AI 判断是否吃牌
+    shouldChi(tile: Tile): boolean {
+        const tiles = this.hand.getTiles();
+        const sameTypeTiles = tiles.filter(t => t.type === tile.type);
+        let count = new Array(5).fill(0);
+        sameTypeTiles.forEach(t=>{
+            let index = t.value - tile.value + 2;
+            if (index >= 0 && index < 5) {
+                count[index]++;
+            }
+        })
+        // 要吃的子
+        count[2]++;
+        for (let index = 0; index < 3; index++) {
+            if( count[index] > 0 && count[index+1] > 0 && count[index+2] > 0 ) return true;
+        }
+        return false;
     }
 }

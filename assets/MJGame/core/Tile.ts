@@ -21,6 +21,7 @@ export const TileTypeMaxIndex = {
 
 export enum TileMode {
     IDLE = 0,
+
     BOTTOM_HAND,
     LEFT_HAND,
     RIGHT_HAND,
@@ -41,37 +42,36 @@ export enum TileMode {
     RIGHT_QP,
     RIGHT_CPG_Z,
     RIGHT_CPG_B,
-    
 }
 ccenum(TileMode);
 export const TileModeMaxIndex = {
     IDLE : 0,
-    BOTTOM_HAND: 0,
-    LEFT_HAND: 0,
-    RIGHT_HAND: 0,
-    TOP_HAND: 0,
+    BOTTOM_HAND: 13,
+    LEFT_HAND: 13,
+    RIGHT_HAND: 13,
+    TOP_HAND: 13,
 
-    BOTTOM_QP : 21,
-    BOTTOM_CPG_Z : 0,
-    BOTTOM_CPG_B : 0,
+    BOTTOM_QP : 32,
+    BOTTOM_CPG_Z : 18,
+    BOTTOM_CPG_B : 18,
     BOTTOM_DP: 0,
     BOTTOM_HP: 0,
     
-    TOP_QP: 21,
-    TOP_CPG_Z: 0,
-    TOP_CPG_B: 0,
+    TOP_QP: 32,
+    TOP_CPG_Z: 18,
+    TOP_CPG_B: 18,
     TOP_DP: 0,
     TOP_HP: 0,
     
-    LEFT_QP: 21,
-    LEFT_CPG_Z: 0,
-    LEFT_CPG_B: 0,
+    LEFT_QP: 32,
+    LEFT_CPG_Z: 18,
+    LEFT_CPG_B: 18,
     LEFT_DP: 0,
     LEFT_HP: 0,
     
-    RIGHT_QP: 21,
-    RIGHT_CPG_Z: 0,
-    RIGHT_CPG_B: 0,
+    RIGHT_QP: 32,
+    RIGHT_CPG_Z: 18,
+    RIGHT_CPG_B: 18,
     RIGHT_DP: 0,
     RIGHT_HP: 0,
 }
@@ -87,39 +87,86 @@ export enum TileTypeName {
 @ccclass('MJGame.Tile')
 export class Tile {
     @property({
-        type:TileType
+        type:TileType,
+        visible:false
     })
-    public type: TileType;
-    @property
-    public value: number;
-    @property
-    public id: number;
+    private _type: TileType;
+    @property({
+        type:CCInteger,
+        visible:false
+    })
+    private _value: number;
+    @property({
+        type:CCInteger,
+        visible:false
+    })
+    private _id: number;
     static createByCardID(id:number) {
         return new Tile(Tools.getTileTypeByID(id), Tools.getTileValueByID(id));
     }
 
     constructor(type: TileType,value: number) {
-        this.type = type;
-        this.value = value;
-        this.id = type | value;
+        this._type = type;
+        this._value = value;
+        this._id = type | value;
     }
     /**
      * 根据id type 和 value 更新id值
      */
     refreshID() {
-        this.id = this.type | this.value;
+        this._id = this._type | this._value;
     }
     /**
      * 根据id 更新 type 和 value
      */
     refreshTypeAndValue() {
-        let type = Tools.getTileTypeByID(this.id);
-        let value = Tools.getTileValueByID(this.id);
-        this.type = type;
-        this.value = value;
+        let type = Tools.getTileTypeByID(this._id);
+        let value = Tools.getTileValueByID(this._id);
+        this._type = type;
+        this._value = value;
+    }
+    
+    @property
+    set id(id:number) {
+        if (this._id == id) return;
+        this._id = id;
+        this.refreshTypeAndValue();
+    }
+
+    get id() {
+        return this._id;
+    }
+
+    
+    @property
+    set value(value:number) {
+        if (this._value == value) return;
+        this._value = value;
+        this.refreshID();
+    }
+
+    get value() {
+        return this._value;
+    }
+
+    @property({
+        type:TileType
+    })
+    set type(type:TileType) {
+        if (this._type == type) return;
+        this._type = type;
+        this.refreshID();
+    }
+
+    get type() {
+        return this._type;
     }
 
     toString(): string {
-        return `${this.value}${TileTypeName[TileType[this.type]]}`;
+        return `${this._value}${TileTypeName[TileType[this._type]]}`;
+    }
+
+    clone(): Tile {
+        return new Tile(this._type, this._value);
     }
 }

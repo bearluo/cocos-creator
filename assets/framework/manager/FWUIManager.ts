@@ -8,8 +8,8 @@ import { FWUIDialog, IHideData } from '../ui/FWUIDialog';
 import { FWUILoadingManager } from './FWUILoadingManager';
 import { FWUIDialogManager } from './FWUIDialogManager';
 import { FWUILoading } from '../ui/FWUILoading';
-import { FWManager } from './FWManager';
 import { IAssetConfig } from '../common/FWShare';
+import { EDITOR } from 'cc/env';
 const { ccclass, property } = _decorator;
 
 @ccclass('FWUIManager')
@@ -23,7 +23,11 @@ export class FWUIManager extends FWBaseManager {
     }
 
     onMangerInitEnd() {
-        this.changeUIRoot(this.createUIRoot());
+        if(EDITOR && globalThis.isPreviewProcess) {
+            this.changeUIRoot(this.createUIRoot());
+        }else if(!EDITOR) {
+            this.changeUIRoot(this.createUIRoot());
+        }
     }
 
     changeUIRoot(uiRoot:UIRoot): void {
@@ -83,7 +87,6 @@ export class FWUIManager extends FWBaseManager {
 }
 
 
-FWManager.register("ui",() => new FWUIManager())
 
 declare global {
     namespace globalThis {

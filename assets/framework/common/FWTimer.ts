@@ -14,6 +14,10 @@ export class FWTimer {
     static unscheduleUpdate(target: ISchedulable) {
         director.getScheduler().unscheduleUpdate(target);
     }
+
+    static now() {
+        return Date.now();
+    }
 }
 
 export const timer = FWTimer;

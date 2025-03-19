@@ -1,26 +1,13 @@
 import { Tile, TileType } from "./Tile";
 import { Player } from "./Player";
-import { Pool } from "cc";
+import { assert, Pool } from "cc";
 
-export interface TableView {
-    /**
-     * 重置出牌堆
-     * @param playerID 
-     * @param IDs 
-     */
-    resetDiscardPile(playerID:number,tiles:Tile[]): void;
-    /**
-     * 出牌
-     */
-    discard(playerID:number,tile:Tile): void;
-}
 
 export class Table {
-    private players: Player[] = [];
-    private wall: Tile[] = []; // 牌堆
-    private discardPile: Tile[][] = []; // 已出牌堆
-    private lastDiscardPalyer:number = -1;
-    public tableView:TableView;
+    public players: Player[] = [];
+    public wall: Tile[] = []; // 牌堆
+    public discardPile: Tile[][] = []; // 已出牌堆
+    public lastDiscardPlayer:number = -1;
 
     constructor(playerCount: number = 4,tileCount:number = 144) {
         // 初始化玩家
@@ -32,16 +19,29 @@ export class Table {
         // 初始化牌堆
         this.initializeWall();
     }
-
     /**
      * 初始化牌堆
      */
     private initializeWall(): void {
-        const types = [TileType.WAN, TileType.TIAO, TileType.TONG];
-        for (const type of types) {
-            for (let value = 1; value <= 9; value++) {
+        {
+            const types = [TileType.WAN, TileType.TIAO, TileType.TONG];
+            for (const type of types) {
+                for (let value = 1; value <= 9; value++) {
+                    for (let i = 0; i < 4; i++) {
+                        this.wall.push(new Tile(type, value));
+                    }
+                }
+            }
+        }
+        {
+            for (let value = 1; value <= 4; value++) {
                 for (let i = 0; i < 4; i++) {
-                    this.wall.push(new Tile(type, value));
+                    this.wall.push(new Tile(TileType.FENG, value));
+                }
+            }
+            for (let value = 1; value <= 3; value++) {
+                for (let i = 0; i < 4; i++) {
+                    this.wall.push(new Tile(TileType.ZI, value));
                 }
             }
         }
@@ -57,6 +57,25 @@ export class Table {
             [this.wall[i], this.wall[j]] = [this.wall[j], this.wall[i]];
         }
     }
+
+    /**
+     * 回收牌
+     */
+    clearTiles() {
+        for (let i = 0; i < this.discardPile.length; i++) {
+            this.wall.push(...this.discardPile[i]);
+            this.discardPile[i].length = 0;
+        }
+        for (let i = 0; i < this.players.length; i++) {
+            this.wall.push(...this.players[i].hand.getTiles());
+            this.wall.push(...this.players[i].cpg.getChiTiles().map(chi=>chi.tiles).flat());
+            this.wall.push(...this.players[i].cpg.getGangTiles().map(gang=>gang.tiles).flat());
+            this.wall.push(...this.players[i].cpg.getPengTiles().map(peng=>peng.tiles).flat());
+            this.players[i].clearTiles();
+        }
+        this.shuffleWall();
+    }
+
 
     /**
      * 发牌
@@ -76,11 +95,10 @@ export class Table {
      * 出牌
      */
     public discard(playerID:number,id:number) {
-        this.lastDiscardPalyer = playerID;
+        this.lastDiscardPlayer = playerID;
         let tile = Tile.createByCardID(id);
         this.discardPile[playerID].push(tile);
-        
-        this.tableView?.discard(playerID,tile);
+        this.players[playerID].discardTile(tile);
     }
 
     /**
@@ -94,8 +112,6 @@ export class Table {
         IDs.forEach(id=>{
             this.discardPile[playerID].push(Tile.createByCardID(id));
         })
-
-        this.tableView?.resetDiscardPile(playerID,discardPile);
     }
 
     /**
@@ -118,7 +134,69 @@ export class Table {
      * 开始游戏
      */
     public startGame(): void {
+        this.clearTiles();
         this.dealTiles();
         this.printTable();
+    }
+
+    /**
+     * 摸牌
+     */
+    public drawTile(index:number) {
+        let player = this.players[index];
+        assert(player != null,"index error");
+        const tile = this.wall.pop();
+        assert(tile != null,"tile error");
+        player.drawTile(tile);
+        return tile;
+    }
+
+    /**
+     * 吃牌
+     * @param index 
+     * @param tile 
+     * @param type 
+     */
+    chiTile(index:number,tile:Tile,type:number) {
+        let player = this.players[index];
+        player.chiTile(tile,type);
+    }
+    /**
+     * 杠牌
+     * @param index 
+     * @param tile 
+     * @param type 
+     */
+    gangTile(index:number,tile:Tile,type:number) {
+        let player = this.players[index];
+        player.gangTile(tile,type);
+    }
+    /**
+     * 碰牌
+     * @param index 
+     * @param tile 
+     */
+    pengTile(index:number,tile:Tile) {
+        let player = this.players[index];
+        player.pengTile(tile);
+    }
+    /**
+     * 胡牌
+     * @param index 
+     * @param tile 
+     */
+    huTile(index:number,tile:Tile) {
+        let player = this.players[index];
+        player.huTile(tile);
+    }
+
+    public getAnGangTiles(index:number) {
+        let player = this.players[index];
+        return player.hand.getAnGang();
+    }
+
+    public getBuGangTiles(index:number) {
+        let player = this.players[index];
+        return player.hand.getBuGang(player.cpg);
     }
 }

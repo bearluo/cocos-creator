@@ -7,7 +7,6 @@ import { Events } from '../events/FWEvents';
 import { FWBundle } from './FWAssetManager';
 import { constant } from '../common/FWConstant';
 import { FWUILoading } from '../ui/FWUILoading';
-import { FWManager } from './FWManager';
 const { ccclass, property } = _decorator;
 
 interface IPreloadJson {
@@ -124,6 +123,7 @@ export class FWSceneManager extends FWBaseManager {
 
         let assetInfos
         preloadList.forEach(data=>{
+            //@ts-ignore 这里是有这个config 的 只是没声明
             assetInfos = bundle.bundle.config.paths.get(data.url);
             assetInfos.forEach(assetInfo=>{
                 let {uuid,extension} = assetInfo;
@@ -185,7 +185,6 @@ export class FWSceneManager extends FWBaseManager {
 }
 
 
-FWManager.register("scene",()=>new FWSceneManager())
 
 
 declare global {

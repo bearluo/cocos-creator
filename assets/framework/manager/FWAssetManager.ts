@@ -4,7 +4,6 @@ import { func } from '../common/FWFunction';
 import { EDITOR, NATIVE } from 'cc/env';
 import { log } from '../common/FWLog';
 import { Events } from '../events/FWEvents';
-import { FWManager } from './FWManager';
 import { app_bundle_name } from '../common/FWConstant';
 const { ccclass, property } = _decorator;
 
@@ -33,16 +32,18 @@ export class FWAssetManager extends FWBaseManager {
 
     start() {
         if (EDITOR) {
-            func.doNextTick(()=>{
-                this.loadBundle({
-                    name: app_bundle_name,
-                    onComplete: (err,bundle) => {
-                        bundle.loadDir({
-                            paths: "res",
-                        })
-                    }
+            if (globalThis.isPreviewProcess) {
+                func.doNextTick(()=>{
+                    this.loadBundle({
+                        name: app_bundle_name,
+                        onComplete: (err,bundle) => {
+                            bundle.loadDir({
+                                paths: "res",
+                            })
+                        }
+                    })
                 })
-            })
+            }
         } else {
             this.loadBundle({
                 name: app_bundle_name,
@@ -293,7 +294,6 @@ export class FWBundle {
     }
 }
 
-FWManager.register("asset",()=>new FWAssetManager())
 
 declare global {
     namespace globalThis {

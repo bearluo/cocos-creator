@@ -7,8 +7,10 @@
   "description": "",
   "dependencies": {
     "@types/sprintf-js": "^1.1.4",
+    "ccc-xstate": "^1.0.1",
     "crypto-es": "^2.1.0",
     "long": "^5.2.3",
+    "openai": "^4.87.4",
     "protobufjs": "^7.2.6",
     "sprintf-js": "^1.1.3"
   }

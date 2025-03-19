@@ -2,11 +2,10 @@ import { _decorator, assert, CCBoolean, CCInteger, Component, Node, Sprite, Vec2
 import { Tile, TileMode, TileModeMaxIndex, TileType, TileTypeMaxIndex } from '../../core/Tile';
 import string from 'sprintf-js';
 import { TileConfig,Config } from './MJConfig';
-// import { default as string } from 'sprintf-js';
 const { ccclass, property, executeInEditMode } = _decorator;
 
 @ccclass('MJBase')
-@executeInEditMode
+// @executeInEditMode
 export class MJBase extends Component {
     @property({
         type:Tile,
@@ -14,21 +13,20 @@ export class MJBase extends Component {
     })
     tile:Tile = new Tile(TileType.WAN,1);
     @property
-    _mode:TileMode = TileMode.IDLE;
+    private _mode:TileMode = TileMode.IDLE;
     /**
      * 同一模式下的牌按牌的下标做不同区分
      */
     @property
-    _modeIndex:number = 0;
+    private _modeIndex:number = 0;
 
+    @property(Node)
     bg:Node;
+    @property(Node)
     icon:Node;
+    
 
     protected onLoad(): void {
-        this.bg = this.node.getChildByName("bg");
-        this.icon = this.node.getChildByName("icon");
-        this.refreshIcon();
-        this.refreshMode();
     }
 
     @property({
@@ -73,7 +71,6 @@ export class MJBase extends Component {
     })
     set value(value:number) {
         this.tile.value = value;
-        this.tile.refreshID();
         this.refreshIcon();
     }
 
@@ -87,7 +84,6 @@ export class MJBase extends Component {
     })
     set type(value:TileType) {
         this.tile.type = value;
-        this.tile.refreshID();
         this.refreshIcon();
     }
 
@@ -101,7 +97,7 @@ export class MJBase extends Component {
     })
     set id(id:number) {
         this.tile.id = id;
-        this.tile.refreshTypeAndValue();
+        this.refreshIcon();
     }
 
     get id() {
@@ -109,7 +105,8 @@ export class MJBase extends Component {
     }
     
     start() {
-
+        this.refreshIcon();
+        this.refreshMode();
     }
 
     update(deltaTime: number) {
@@ -125,6 +122,10 @@ export class MJBase extends Component {
             path = string.sprintf(icon,this.value);
         }
         let sprite = this.icon.getComponent(Sprite);
+        if ( TileMode.BOTTOM_HAND == this.mode ) {
+        } else {
+            path = path + "_1"
+        }
         sprite.spriteFrame = sprite.spriteAtlas.getSpriteFrame(path);
     }
 
@@ -134,12 +135,7 @@ export class MJBase extends Component {
         /**
          * 控制背景图
          */
-        // if ( TileMode.IDLE == this.mode || TileMode.BOTTOM_HAND == this.mode ) {
-            sprite.spriteFrame = sprite.spriteAtlas.getSpriteFrame(path);
-        // } else {
-        //     path = string.sprintf(path,this.modeIndex);
-        //     sprite.spriteFrame = sprite.spriteAtlas.getSpriteFrame(path);
-        // }
+        sprite.spriteFrame = sprite.spriteAtlas.getSpriteFrame(path);
         /**
          * 控制icon显示
          */
@@ -154,8 +150,10 @@ export class MJBase extends Component {
             this.icon.active = false;
         } else {
             this.icon.active = true;
+            this.refreshIcon();
             this.refreshIconSize();
         }
+        this.refreshBackgroudSize();
     }
 
     refreshIconSize() {
@@ -189,6 +187,49 @@ export class MJBase extends Component {
         } else {
             this.icon.setScale(1,1);
         }
+    }
+
+    
+    refreshBackgroudSize() {
+        let tilePos = TileConfig[this.mode];
+        if ( !tilePos ) return ;
+        let {b_pos : pos,b_rotation : rotation,b_scale : scale} = tilePos;
+        if (pos) {
+            if (Array.isArray(pos)) {
+                this.bg.setPosition(pos[this.modeIndex].x,pos[this.modeIndex].y);
+            } else {
+                this.bg.setPosition(pos.x,pos.y);
+            }
+        } else {
+            this.bg.setPosition(0,0);
+        }
+        if (rotation) {
+            if (Array.isArray(rotation)) {
+                this.bg.setRotation(rotation[this.modeIndex].x,rotation[this.modeIndex].y,rotation[this.modeIndex].z,rotation[this.modeIndex].w);
+            } else {
+                this.bg.setRotation(rotation.x,rotation.y,rotation.z,rotation.w);
+            }
+        } else {
+            this.bg.setRotation(0,0,0,0);
+        }
+        if (scale) {
+            if (Array.isArray(scale)) {
+                this.bg.setScale(scale[this.modeIndex].x,scale[this.modeIndex].y);
+            } else {
+                this.bg.setScale(scale.x,scale.y);
+            }
+        } else {
+            this.bg.setScale(1,1);
+        }
+    }
+    /**
+     * 点击测试
+     * @param screenPoint 
+     * @param windowId 
+     * @returns 
+     */
+    hitTest(screenPoint: Vec2, windowId?: number) {
+        return this.bg._uiProps.uiTransformComp!.hitTest(screenPoint, windowId);
     }
 }
 

@@ -1,6 +1,4 @@
 import { _decorator, CCBoolean, Component, Node, Vec2, Vec3, Vec4 } from 'cc';
-import { TablePrefab } from '../prefab/TablePrefab';
-import { FourPlayerID, PlayerID } from '../../core/Config';
 import { TileConfig } from '../prefab/MJConfig';
 import { MJBase } from '../prefab/MJBase';
 

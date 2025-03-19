@@ -91,7 +91,7 @@ export const func = Functions
 export class quickAsset {
     static getAsset<T extends Asset>(bundleName:string,path:string,type?:Constructor<T>) {
         let bundle = app.manager.asset.getBundle(bundleName);
-        assert(bundle,`bundle ${bundleName} not exist`);
+        assert(bundle!=null,`bundle ${bundleName} not exist`);
         return bundle.get(path,type);
     }
 
@@ -181,7 +181,7 @@ export class UIFunctions {
         let node:Node;
         if(target instanceof Node) {
             node = target;
-            target = target.getComponent(Button);
+            target = target.getComponent(Button) ?? target.addComponent(Button);;
         } else {
             node = target.node;
         }

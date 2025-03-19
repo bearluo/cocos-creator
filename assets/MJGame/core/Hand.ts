@@ -1,3 +1,5 @@
+import { CPG } from "./CPG";
+import { Rule } from "./Rule";
 import { Tile, TileType } from "./Tile";
 
 export class Hand {
@@ -11,7 +13,7 @@ export class Hand {
 
     // 移除牌
     removeTile(tile: Tile): void {
-        const index = this.tiles.findIndex(t => t.type === tile.type && t.value === tile.value);
+        const index = this.tiles.findIndex(t => t.id === tile.id);
         if (index !== -1) {
             this.tiles.splice(index, 1);
         }
@@ -26,10 +28,49 @@ export class Hand {
             return a.type - b.type;
         });
     }
+    /**
+     * 获得暗杠牌
+     */
+    getAnGang():Tile[] {
+        let tiles:Tile[] = [];
+        let count = 0;
+        let preTile:Tile = null;
+        this.tiles.forEach(tile=>{
+            if (preTile == null || preTile.id == tile.id) {
+                count++;
+            } else {
+                if(count == 4){
+                    tiles.push(preTile);
+                }
+                count = 0;
+            }
+            preTile = tile;
+        })
+        return tiles;
+    }
+
+    /**
+     * 获得补杠牌
+     */
+    getBuGang(cpg:CPG):Tile[] {
+        let tiles:Tile[] = [];
+        cpg.getPengTiles().forEach(peng=>{
+            if(peng.tiles[0]) {
+                if( Rule.hasTile(this,peng.tiles[0]) ){
+                    tiles.push(peng.tiles[0]);
+                }
+            }
+        });
+        return tiles;
+    }
 
     // 获取手牌
     getTiles(): Tile[] {
         return this.tiles;
+    }
+
+    clearTiles() {
+        this.tiles.length = 0;
     }
 
     // 打印手牌

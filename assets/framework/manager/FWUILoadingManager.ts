@@ -22,7 +22,7 @@ export class FWUILoadingManager extends FWBaseManager {
     }
 
     private createMask() {
-        assert(this._root,"dialogRoot is null")
+        assert(this._root != null,"dialogRoot is null")
         //遮罩节点
         let maskNode = uiFunc.newNodeWidget(this._maskName);
         //添加触摸吞噬
@@ -33,14 +33,14 @@ export class FWUILoadingManager extends FWBaseManager {
     }
 
     add(dialog: FWUILoading) {
-        assert(this._root, "dialogRoot is null");
+        assert(this._root != null, "dialogRoot is null");
         dialog.node.parent = this._root;
         this._queue.push(dialog);
         this._queueDirty = true;
     }
 
     remove(dialog: FWUILoading) {
-        assert(this._root, "dialogRoot is null");
+        assert(this._root != null, "dialogRoot is null");
         let index = this._queue.indexOf(dialog);
         if(index!=-1) {
             this._queue.splice(index, 1);

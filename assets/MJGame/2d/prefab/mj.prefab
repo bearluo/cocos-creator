@@ -98,7 +98,7 @@
       "x": 0,
       "y": 0,
       "z": 0,
-      "w": 1
+      "w": 0
     },
     "_lscale": {
       "__type__": "cc.Vec3",
@@ -251,7 +251,7 @@
       "__type__": "cc.Vec3",
       "x": 0,
       "y": 0,
-      "z": 0
+      "z": 90
     },
     "_id": ""
   },
@@ -269,8 +269,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 63,
-      "height": 93
+      "width": 65,
+      "height": 85
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -306,7 +306,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "f7bd8246-8284-4a18-a9ba-b9ce2c6a157b@bba36",
+      "__uuid__": "f7bd8246-8284-4a18-a9ba-b9ce2c6a157b@ab012",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -387,8 +387,14 @@
     "tile": {
       "__id__": 18
     },
-    "_mode": 0,
-    "_modeIndex": 0,
+    "_mode": 1,
+    "_modeIndex": 5,
+    "bg": {
+      "__id__": 2
+    },
+    "icon": {
+      "__id__": 8
+    },
     "_id": ""
   },
   {
@@ -398,8 +404,8 @@
   {
     "__type__": "MJGame.Tile",
     "type": 0,
-    "value": 3,
-    "id": 3
+    "value": 1,
+    "id": 1
   },
   {
     "__type__": "cc.PrefabInfo",

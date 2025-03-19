@@ -5,12 +5,19 @@ interface TilePos {
     pos?:IVec2Like[]|IVec2Like,
     rotation?:IVec4Like[]|IVec4Like,
     scale?:IVec2Like[]|IVec2Like,
+
+    b_pos?:IVec2Like[]|IVec2Like,
+    b_rotation?:IVec4Like[]|IVec4Like,
+    b_scale?:IVec2Like[]|IVec2Like,
+    
 }
 
 /**
  * {@link TileMode.IDLE}
  */
-const IDLE:TilePos = null;
+const IDLE:TilePos = {
+    pos:{x:0,y:-6.255},
+};
 /**
  * {@link TileMode.BOTTOM_HAND}
  */
@@ -20,98 +27,124 @@ const BOTTOM_HAND:TilePos = {
 /**
  * {@link TileMode.LEFT_HAND}
  */
-const LEFT_HAND:TilePos = null;
+const LEFT_HAND:TilePos = {
+    b_scale:{x:0.6,y:0.6},
+};
 /**
  * {@link TileMode.RIGHT_HAND}
  */
-const RIGHT_HAND:TilePos = null;
+const RIGHT_HAND:TilePos = {
+    b_scale:{x:0.6,y:0.6},
+};
 /**
  * {@link TileMode.TOP_HAND}
  */
-const TOP_HAND:TilePos = null;
+const TOP_HAND:TilePos = {
+    b_scale:{x:0.6,y:0.6},
+};
 /**
  * {@link TileMode.BOTTOM_QP}
  */
 const BOTTOM_QP: TilePos = {
-    pos:{x:0,y:10.745},
+    pos:{x:0,y:4.745},
+    scale:{x:0.7,y:0.7},
+    b_scale:{x:0.4,y:0.4},
 };
 
 /**
  * {@link TileMode.BOTTOM_CPG_Z}
  */
 const BOTTOM_CPG_Z:TilePos = {
-    pos:{x:0,y:10.745},
+    pos:{x:0,y:4.745},
+    scale:{x:0.7,y:0.7},
+    b_scale:{x:0.4,y:0.4},
 };
 /**
  * {@link TileMode.BOTTOM_CPG_B}
  */
-const BOTTOM_CPG_B:TilePos = null;
+const BOTTOM_CPG_B:TilePos = {
+    b_scale:{x:0.4,y:0.4},
+};
 
 /**
  * {@link TileMode.TOP_QP}
  */
 const TOP_QP: TilePos = {
-    pos:{x:0,y:11.745},
+    pos:{x:0,y:4.745},
+    scale:{x:0.7,y:0.7},
+    b_scale:{x:0.4,y:0.4},
 };
 
 /**
  * {@link TileMode.TOP_CPG_Z}
  */
 const TOP_CPG_Z: TilePos = {
-    pos:{x:0,y:11.745},
+    pos:{x:0,y:4.745},
+    scale:{x:0.7,y:0.7},
+    b_scale:{x:0.4,y:0.4},
 };
 
 /**
  * {@link TileMode.TOP_CPG_B}
  */
-const TOP_CPG_B: TilePos = null;
+const TOP_CPG_B: TilePos = {
+    b_scale:{x:0.4,y:0.4},
+};
 
 /**
  * {@link TileMode.LEFT_QP}
  */
 const LEFT_QP: TilePos = {
-    pos:{x:-10,y:2.745},
+    pos:{x:-3.954,y:0.745},
     rotation:{"x": 0,"y": 0,"z": -0.7071067811865475,"w": 0.7071067811865476},
-    scale:{x:0.8,y:0.8},
+    scale:{x:0.64,y:0.64},
+    b_scale:{x:0.4,y:0.4},
 };
 
 /**
  * {@link TileMode.LEFT_CPG_Z}
  */
 const LEFT_CPG_Z: TilePos = {
-    pos:{x:-10,y:2.745},
+    pos:{x:-3.954,y:0.745},
     rotation:{"x": 0,"y": 0,"z": -0.7071067811865475,"w": 0.7071067811865476},
-    scale:{x:0.8,y:0.8},
+    scale:{x:0.64,y:0.64},
+    b_scale:{x:0.4,y:0.4},
 };
 
 /**
  * {@link TileMode.LEFT_CPG_B}
  */
-const LEFT_CPG_B: TilePos = null;
+const LEFT_CPG_B: TilePos = {
+    b_scale:{x:0.4,y:0.4},
+};
 
 
 /**
  * {@link TileMode.RIGHT_QP}
  */
 const RIGHT_QP: TilePos = {
-    pos:{x:7,y:2.745},
+    pos:{x:3,y:0.745},
     rotation:{"x": 0,"y": 0,"z": 0.7071067811865475,"w": 0.7071067811865476},
-    scale:{x:0.8,y:0.8},
+    scale:{x:0.64,y:0.64},
+    b_scale:{x:0.4,y:0.4},
 };
 
 /**
  * {@link TileMode.RIGHT_CPG_Z}
  */
 const RIGHT_CPG_Z: TilePos = {
-    pos:{x:7,y:2.745},
+    pos:{x:3,y:0.745},
     rotation:{"x": 0,"y": 0,"z": 0.7071067811865475,"w": 0.7071067811865476},
-    scale:{x:0.8,y:0.8},
+    scale:{x:0.64,y:0.64},
+    b_scale:{x:0.4,y:0.4},
 };;
 
 /**
  * {@link TileMode.RIGHT_CPG_B}
  */
-const RIGHT_CPG_B: TilePos = null;
+const RIGHT_CPG_B: TilePos = {
+    b_scale:{x:0.4,y:0.4},
+};
 
 /**
  * Tile 内部 icon 的各个模式的属性

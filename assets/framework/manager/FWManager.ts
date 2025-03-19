@@ -1,6 +1,11 @@
-import { assert, instantiate } from "cc";
+import { assert, instantiate, sys } from "cc";
 import { manager } from "../common/FWShare";
 import { FWBaseManager } from "./FWBaseManager";
+import { FWUIManager } from "./FWUIManager";
+import { FWAssetManager } from "./FWAssetManager";
+import { FWNativeAndroid, FWNativeBrowser, FWNativeIOS, FWNativeWindows } from "../native/FWNative";
+import { FWSceneManager } from "./FWSceneManager";
+import { FWAudioManager } from "./FWAudioManager";
 
 /**
  * 
@@ -55,4 +60,19 @@ export class FWManager extends EventTarget {
         });
     }
 }
+
+
+FWManager.register("asset",()=>new FWAssetManager())
+FWManager.register("scene",()=>new FWSceneManager())
+FWManager.register("audio",()=>new FWAudioManager())
+FWManager.register("ui",() => new FWUIManager())
+FWManager.register("native",() => {
+    if (sys.isBrowser) return new FWNativeBrowser()
+    if (sys.isNative) {
+        if(sys.os == "Android") return new FWNativeAndroid()
+        if(sys.os == "iOS") return new FWNativeIOS()
+        if(sys.os == "Windows") return new FWNativeWindows();
+    }
+    assert(false, `not support native ${sys.os}`);
+})
 

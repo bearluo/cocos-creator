@@ -4,7 +4,7 @@ import { Events } from '../events/FWEvents';
 import { UIRoot } from '../ui/FWUIRoot';
 import { Setting } from '../config/FWSetting';
 import { FWApplication } from '../FWApplication';
-import { FWManager } from './FWManager';
+import { EDITOR } from 'cc/env';
 const { ccclass, property } = _decorator;
 
 @ccclass('FWAudioManager')
@@ -16,7 +16,11 @@ export class FWAudioManager extends FWBaseManager {
     private _sfxPool:Pool<AudioSource>
 
     __preload(): void {
-        this.createAudioNode();
+        if(EDITOR && globalThis.isPreviewProcess) {
+            this.createAudioNode();
+        }else if(!EDITOR) {
+            this.createAudioNode();
+        }
     }
 
 
@@ -112,7 +116,6 @@ export class FWAudioManager extends FWBaseManager {
 }
 
 
-FWManager.register("audio",()=>new FWAudioManager())
 
 declare global {
     namespace globalThis {
